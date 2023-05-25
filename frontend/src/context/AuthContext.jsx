@@ -1,6 +1,7 @@
 import { createContext } from "react";
 import useLocalStorage from "../hooks/useLocalStorage";
 import { useMediaQuery } from "@mantine/hooks";
+import axios from "axios";
 
 const AuthContext = createContext({});
 
@@ -17,7 +18,20 @@ export const AuthProvider = ({ children }) => {
 
   // const userData = user !== null ? loggedUser : null;
 
-  return <AuthContext.Provider value={{ smallScreen, user, setUser, loggedUser }}>{children}</AuthContext.Provider>;
+  const instance = axios.create({
+    withCredentials: true,
+    baseURL: `${process.env.REACT_APP_SERVER}/`,
+    headers: {
+      // 'Authorization': `Bearer ${user ? token : ''}`,
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  });
+
+  return (
+    <AuthContext.Provider value={{ smallScreen, user, setUser, loggedUser, instance }}>{children}</AuthContext.Provider>
+  );
 };
 
 export default AuthContext;
