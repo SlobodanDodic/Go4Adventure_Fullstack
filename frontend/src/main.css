@@ -1,0 +1,73 @@
+/* Colors */
+:root {
+  --darker-blue: #01233e;
+  --dark-blue: #0b4668;
+  --light-blue: #3cc1f2;
+  --orange: #fdb500;
+}
+
+/* Global mantine css */
+.mantine-1qwkbb3[data-active] {
+  background-color: #0000000a;
+  color: var(--dark-blue);
+  border-radius: 10px;
+}
+.mantine-1qwkbb3[data-active]:hover {
+  background-color: #0d496912;
+}
+.mantine-1qwkbb3:hover {
+  color: var(--light-blue);
+}
+
+/* Forgot password page */
+.forgotPassword {
+  position: absolute;
+  top: 5rem;
+  right: 0rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--light-blue);
+}
+
+/* Notification */
+.mantine-86bg6z {
+  max-width: 20rem;
+}
+.mantine-1pr6igm {
+  background-color: var(--dark-blue);
+}
+.mantine-n5di6h,
+.mantine-5fxtu3,
+.mantine-13oh7kq,
+.mantine-1x5zumq {
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* Tours / table */
+.mantine-1tfyvjm thead tr th {
+  color: var(--dark-blue);
+}
+.mantine-anru7x:hover {
+  cursor: pointer;
+}
+.mantine-1aj1qop {
+  border-top: 0.5px solid var(--orange);
+}
+.mantine-upcmq9 {
+  border-top: 0.5px solid white;
+}
+
+/* Add-Edit Tours Page */
+.mantine-1fhkwm7 {
+  padding-top: 1.25rem;
+}
+/* Rich text editor */
+.mantine-nlxhsk {
+  gap: 0.5rem;
+  padding: 0.5rem;
+}
+.mantine-1n6rb1r {
+  font-size: 0.75rem;
+}
