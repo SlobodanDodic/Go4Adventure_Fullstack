@@ -1,20 +1,20 @@
-import { useEffect } from "react";
-import { useContext } from "react";
-import AuthContext from "../../context/AuthContext";
+// import { useEffect } from "react";
+// import { useContext } from "react";
+// import AuthContext from "../../context/AuthContext";
 
 export default function ProfilePage() {
-  const { instance } = useContext(AuthContext);
+  // const { instance } = useContext(AuthContext);
 
-  const updateUsersProfile = async () => {
-    return await instance
-      .get(`/`)
-      .then((response) => console.log(response.data))
-      .catch((err) => console.log(err));
-  };
+  // const updateUsersProfile = async () => {
+  //   return await instance
+  //     .get(`/`)
+  //     .then((response) => console.log(response.data))
+  //     .catch((err) => console.log(err));
+  // };
 
-  useEffect(() => {
-    updateUsersProfile();
-  }, []);
+  // useEffect(() => {
+  //   updateUsersProfile();
+  // }, []);
 
   return <div>ProfilePage</div>;
 }
