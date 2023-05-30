@@ -29,8 +29,8 @@ export default function Tours() {
         />
         {role === "admin" && (
           <NavLink
-            label="Add/Edit Tours"
-            description="Add new or edit existing"
+            label="Add Tour"
+            description="Add new tour"
             icon={<IconTextPlus size="1.5rem" stroke={1.5} />}
             onClick={() => {
               navigate("/add-edit-tours");

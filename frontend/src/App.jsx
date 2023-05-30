@@ -6,8 +6,6 @@ import { theme } from "./theme";
 import AuthPage from "./pages/logged-out/AuthPage";
 import ForgotPassword from "./pages/logged-out/ForgotPassword";
 // Logged In Pages
-import { useContext } from "react";
-import AuthContext from "./context/AuthContext";
 import PrivateRoutes from "./components/PrivateRoutes";
 import Dashboard from "./pages/logged-in/Dashboard";
 import Tours from "./pages/logged-in/Tours";
@@ -18,8 +16,6 @@ import AddEditTours from "./pages/logged-in/AddEditTours";
 import Tour from "./pages/logged-in/Tour";
 
 export default function App() {
-  const { role } = useContext(AuthContext);
-
   return (
     <MantineProvider withGlobalStyles withNormalizeCSS theme={theme}>
       <Notifications position="top-right" />
@@ -31,8 +27,7 @@ export default function App() {
             <Route path="/" element={<Dashboard />} />
             <Route path="/tours" element={<Tours />} />
             <Route path="/tours/:title" element={<Tour />} />
-            {/* <Route path="/add-edit-tours" element={role === "adimn" && <AddEditTours />} /> */}
-            {role === "admin" && <Route path="/add-edit-tours" element={<AddEditTours />} />}
+            <Route path="/add-edit-tours" element={<AddEditTours />} />
             <Route path="/activity" element={<Activity />} />
             <Route path="/finance" element={<Finance />} />
             <Route path="/profile" element={<ProfilePage />} />

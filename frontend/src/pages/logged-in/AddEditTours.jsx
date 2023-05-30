@@ -1,16 +1,5 @@
 import { useState } from "react";
-import {
-  Button,
-  Flex,
-  SimpleGrid,
-  createStyles,
-  rem,
-  TextInput,
-  NumberInput,
-  Textarea,
-  Center,
-  Box,
-} from "@mantine/core";
+import { Button, Flex, SimpleGrid, createStyles, rem, TextInput, NumberInput, Center, Box } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
 import { useNavigate } from "react-router-dom";
 import { useId } from "@mantine/hooks";
@@ -21,9 +10,7 @@ import { IconAlignLeft } from "@tabler/icons-react";
 
 export default function AddEditTours() {
   const [value, setValue] = useState([]);
-  const [textValue, setTextValue] = useState("");
-  // categories
-  // const [subcategoryState, setSubcategoryState] = useState([]);
+  // const [textValue, setTextValue] = useState("");
   const [group, setGroup] = useState(groups[0]);
   const [category, setCategory] = useState(groups[0].categories[0]);
   const [subcategory, setSubcategory] = useState(groups[0].categories[0].subcategories[0]);
@@ -74,7 +61,7 @@ export default function AddEditTours() {
         />
       </SimpleGrid>
 
-      <Textarea
+      {/* <Textarea
         classNames={classes}
         value={textValue}
         onChange={(e) => setTextValue(e.currentTarget.textValue)}
@@ -84,7 +71,7 @@ export default function AddEditTours() {
         minRows={2}
         mt="md"
         maw="1200px"
-      />
+      /> */}
 
       <Center mt={16}>
         <IconAlignLeft size={rem(14)} />

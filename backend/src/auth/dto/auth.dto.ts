@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsString, IsEmail, Length, MinLength, IsBoolean, IsOptional } from 'class-validator';
 
-export class AuthDtoLogin {
+export class AuthDtoRegister {
   @IsNotEmpty()
   @IsString()
   @MinLength(3)
@@ -23,7 +23,7 @@ export class AuthDtoLogin {
   public token?: string;
 }
 
-export class AuthDtoSignin {
+export class AuthDtoLogin {
   @IsNotEmpty()
   @IsString()
   @MinLength(3)

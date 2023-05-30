@@ -1,3 +1,5 @@
+import { useContext, useState } from "react";
+import AuthContext from "../context/AuthContext";
 import { RichTextEditor, Link } from "@mantine/tiptap";
 import { useEditor } from "@tiptap/react";
 import Highlight from "@tiptap/extension-highlight";
@@ -6,10 +8,13 @@ import Underline from "@tiptap/extension-underline";
 import TextAlign from "@tiptap/extension-text-align";
 import Superscript from "@tiptap/extension-superscript";
 import SubScript from "@tiptap/extension-subscript";
-import { useState } from "react";
 
-export default function RichTextEdit() {
-  const [content, setContent] = useState("");
+export default function RichTextEdit({ data }) {
+  const [content, setContent] = useState(data.contentData);
+  const { role } = useContext(AuthContext);
+  const roleEditable = role === "admin" ? true : false;
+
+  console.log(roleEditable);
 
   const editor = useEditor({
     extensions: [
@@ -21,17 +26,21 @@ export default function RichTextEdit() {
       Highlight,
       TextAlign.configure({ types: ["heading", "paragraph"] }),
     ],
-    onUpdate({ editor }) {
-      setContent(editor.getJSON());
-    },
+    // onUpdate({ editor }) {
+    //   setContent(editor.getJSON());
+    // },
+    editable: false,
     content,
   });
 
-  // console.log(content);
+  // editor.setEditable(false);
+
+  // console.log(editor.view);
+  // console.log(editor.view.editable);
 
   return (
     <RichTextEditor editor={editor} maw={1200} my={16}>
-      <RichTextEditor.Toolbar sticky stickyOffset={60}>
+      {/* <RichTextEditor.Toolbar sticky stickyOffset={60}>
         <RichTextEditor.ControlsGroup>
           <RichTextEditor.Bold />
           <RichTextEditor.Italic />
@@ -69,7 +78,7 @@ export default function RichTextEdit() {
           <RichTextEditor.AlignJustify />
           <RichTextEditor.AlignRight />
         </RichTextEditor.ControlsGroup>
-      </RichTextEditor.Toolbar>
+      </RichTextEditor.Toolbar> */}
 
       <RichTextEditor.Content />
     </RichTextEditor>

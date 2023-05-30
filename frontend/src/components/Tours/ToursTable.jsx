@@ -2,14 +2,11 @@ import { useContext } from "react";
 import AuthContext from "../../context/AuthContext";
 import { Link } from "react-router-dom";
 import { Avatar, Table, Group, Text, ActionIcon, ScrollArea } from "@mantine/core";
-import { IconPencil, IconTrash, IconEye } from "@tabler/icons-react";
+import { IconTrashXFilled, IconEye } from "@tabler/icons-react";
 import { toursData } from "./toursData";
 
 export function ToursTable() {
   const { role } = useContext(AuthContext);
-  // const navigate = useNavigate();
-
-  // onClick={() => navigate(`/tours/${item.title}`)}
 
   const rows = toursData.map((item, i) => (
     <tr key={i}>
@@ -38,24 +35,22 @@ export function ToursTable() {
         </Text>
       </td>
       <td>
-        {role === "admin" ? (
-          <Group spacing={0} position="center">
-            <ActionIcon color="green.9">
-              <IconPencil size="1rem" stroke={1.5} />
-            </ActionIcon>
-            <ActionIcon color="red.9">
-              <IconTrash size="1rem" stroke={1.5} />
-            </ActionIcon>
-          </Group>
-        ) : (
-          <Group spacing={0} position="center">
-            <ActionIcon color="blue.9">
-              <Link to={`/tours/${item.title}`} state={{ data: item }}>
-                <IconEye size="1rem" stroke={1.5} />
-              </Link>
-            </ActionIcon>
-          </Group>
-        )}
+        <Group spacing={0} position="center">
+          <ActionIcon>
+            <Link to={`/tours/${item.title}`} state={{ data: item }} style={{ color: "green" }}>
+              <IconEye size="1rem" stroke={1.5} />
+            </Link>
+          </ActionIcon>
+        </Group>
+      </td>
+      <td>
+        <Group spacing={0} position="center">
+          <ActionIcon>
+            <Link to={`/tours/${item.title}`} state={{ data: item }} style={{ color: "darkred" }}>
+              <IconTrashXFilled size="1rem" stroke={1.5} />
+            </Link>
+          </ActionIcon>
+        </Group>
       </td>
     </tr>
   ));
@@ -69,7 +64,12 @@ export function ToursTable() {
             <th>Date</th>
             <th>Category</th>
             <th>Subcategory</th>
-            <th style={{ textAlign: "center" }}>Action</th>
+            {role === "admin" ? (
+              <th style={{ textAlign: "center" }}>View/Edit</th>
+            ) : (
+              <th style={{ textAlign: "center" }}>View</th>
+            )}
+            <th style={{ textAlign: "center" }}>Delete</th>
           </tr>
         </thead>
         <tbody>{rows}</tbody>
