@@ -1,9 +1,17 @@
+import { useContext } from "react";
+import AuthContext from "../../context/AuthContext";
+import { Link } from "react-router-dom";
 import { Avatar, Table, Group, Text, ActionIcon, ScrollArea } from "@mantine/core";
-import { IconPencil, IconTrash } from "@tabler/icons-react";
-import { data } from "./toursData";
+import { IconPencil, IconTrash, IconEye } from "@tabler/icons-react";
+import { toursData } from "./toursData";
 
 export function ToursTable() {
-  const rows = data.map((item, i) => (
+  const { role } = useContext(AuthContext);
+  // const navigate = useNavigate();
+
+  // onClick={() => navigate(`/tours/${item.title}`)}
+
+  const rows = toursData.map((item, i) => (
     <tr key={i}>
       <td>
         <Group spacing="sm">
@@ -30,14 +38,24 @@ export function ToursTable() {
         </Text>
       </td>
       <td>
-        <Group spacing={0} position="center">
-          <ActionIcon color="green.9">
-            <IconPencil size="1rem" stroke={1.5} />
-          </ActionIcon>
-          <ActionIcon color="red.9">
-            <IconTrash size="1rem" stroke={1.5} />
-          </ActionIcon>
-        </Group>
+        {role === "admin" ? (
+          <Group spacing={0} position="center">
+            <ActionIcon color="green.9">
+              <IconPencil size="1rem" stroke={1.5} />
+            </ActionIcon>
+            <ActionIcon color="red.9">
+              <IconTrash size="1rem" stroke={1.5} />
+            </ActionIcon>
+          </Group>
+        ) : (
+          <Group spacing={0} position="center">
+            <ActionIcon color="blue.9">
+              <Link to={`/tours/${item.title}`} state={{ data: item }}>
+                <IconEye size="1rem" stroke={1.5} />
+              </Link>
+            </ActionIcon>
+          </Group>
+        )}
       </td>
     </tr>
   ));

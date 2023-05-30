@@ -6,8 +6,11 @@ import Underline from "@tiptap/extension-underline";
 import TextAlign from "@tiptap/extension-text-align";
 import Superscript from "@tiptap/extension-superscript";
 import SubScript from "@tiptap/extension-subscript";
+import { useState } from "react";
 
 export default function RichTextEdit() {
+  const [content, setContent] = useState("");
+
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -18,7 +21,13 @@ export default function RichTextEdit() {
       Highlight,
       TextAlign.configure({ types: ["heading", "paragraph"] }),
     ],
+    onUpdate({ editor }) {
+      setContent(editor.getJSON());
+    },
+    content,
   });
+
+  // console.log(content);
 
   return (
     <RichTextEditor editor={editor} maw={1200} my={16}>

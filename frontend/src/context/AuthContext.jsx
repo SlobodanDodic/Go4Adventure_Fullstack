@@ -8,6 +8,7 @@ const AuthContext = createContext({});
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useLocalStorage("user", null);
   const smallScreen = useMediaQuery("(max-width: 350px)");
+  const role = "user";
 
   const loggedUser = {
     avatar:
@@ -30,7 +31,9 @@ export const AuthProvider = ({ children }) => {
   });
 
   return (
-    <AuthContext.Provider value={{ smallScreen, user, setUser, loggedUser, instance }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ role, smallScreen, user, setUser, loggedUser, instance }}>
+      {children}
+    </AuthContext.Provider>
   );
 };
 

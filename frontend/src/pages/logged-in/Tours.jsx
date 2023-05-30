@@ -6,7 +6,7 @@ import { ToursTable } from "../../components/Tours/ToursTable";
 import { useContext } from "react";
 
 export default function Tours() {
-  const { smallScreen } = useContext(AuthContext);
+  const { role, smallScreen } = useContext(AuthContext);
   const navigate = useNavigate();
 
   return (
@@ -27,19 +27,21 @@ export default function Tours() {
             </ActionIcon>
           }
         />
-        <NavLink
-          label="Add/Edit Tours"
-          description="Add new or edit existing"
-          icon={<IconTextPlus size="1.5rem" stroke={1.5} />}
-          onClick={() => {
-            navigate("/add-edit-tours");
-          }}
-          fw="bold"
-          w="auto"
-          c="dark-blue"
-          mx="xs"
-          mb="xs"
-        />
+        {role === "admin" && (
+          <NavLink
+            label="Add/Edit Tours"
+            description="Add new or edit existing"
+            icon={<IconTextPlus size="1.5rem" stroke={1.5} />}
+            onClick={() => {
+              navigate("/add-edit-tours");
+            }}
+            fw="bold"
+            w="auto"
+            c="dark-blue"
+            mx="xs"
+            mb="xs"
+          />
+        )}
       </Flex>
       <Divider my="xs" label="List of all Tours" labelPosition="center" fw="bold" c="dark-blue" />
 

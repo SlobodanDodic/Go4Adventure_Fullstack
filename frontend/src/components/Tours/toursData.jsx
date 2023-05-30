@@ -1,4 +1,4 @@
-export const data = [
+export const toursData = [
   {
     id: 1,
     group: "land",
@@ -19,6 +19,8 @@ export const data = [
 We will practice uphill and downhill running techniques - with different approaches for ultra and shorter trail races. You will receive a sign-up package with gifts from our sponsors, as well as an official t-shirt of the Sky2Run Trail Running Camp (more details to follow). Get ready to become a stronger trail runner, have a wonderful time in these beautiful and wild Balkan mountains, and make new friends (especially chamois).`,
     date: "May 28th 2023",
     length: "7",
+    views: 1234,
+    comments: 231,
     additionalInfo: "Max number: 30",
     location: {
       latitude: 43.154942,
@@ -41,6 +43,8 @@ We will practice uphill and downhill running techniques - with different approac
     text: "We are opening the 9th season at the Olympic tracks on March 11, 2023! You all know how looks the new skyrunning format. Last year was the first Skyrunning championship in Spain. Also the Jahorina race, the only one in that format in this part of Europe.",
     date: "May 14th 2023",
     length: "4",
+    views: 1234,
+    comments: 231,
     additionalInfo: "7-77",
     location: {
       latitude: 43.737259,
@@ -63,6 +67,8 @@ We will practice uphill and downhill running techniques - with different approac
     text: "We are opening the 9th season at the Olympic tracks on March 11, 2023! You all know how looks the new skyrunning format. Last year was the first Skyrunning championship in Spain. Also the Jahorina race, the only one in that format in this part of Europe.",
     date: "May 14th 2023",
     length: "4",
+    views: 1234,
+    comments: 231,
     additionalInfo: "7-77",
     location: {
       latitude: 42.439999,
@@ -85,6 +91,8 @@ We will practice uphill and downhill running techniques - with different approac
     text: "We are opening the 9th season at the Olympic tracks on March 11, 2023! You all know how looks the new skyrunning format. Last year was the first Skyrunning championship in Spain. Also the Jahorina race, the only one in that format in this part of Europe.",
     date: "May 14th 2023",
     length: "4",
+    views: 1234,
+    comments: 231,
     additionalInfo: "7-77",
     location: {
       latitude: 43.219978,
