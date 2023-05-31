@@ -19,17 +19,13 @@ export default function Leftbar({ setOpened }) {
   const navigate = useNavigate();
 
   const handleSignout = () => {
-    // instance
-    // .post("auth/signout")
-    // .then(() => {
+    // instance.post("auth/signout").then(() => {}).catch((err) => console.log(err)).finally(() => setLoading(false));
     setUser(null);
     notifications.show({
       message: "Successfully logged out!",
       color: "orange",
       styles: () => notificationcss,
     });
-    // })
-    // .catch((err) => console.log(err));
   };
 
   const items = data.map((item, index) => (

@@ -1,13 +1,15 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import AuthContext from "../../context/AuthContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button, Flex, PasswordInput, Paper, Image } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
 import logo from "../../assets/logo.png";
+import Spinner from "../../components/Spinner";
 
 export default function ResetPassword() {
   const { instance, notificationcss } = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { token } = useParams();
 
@@ -24,6 +26,7 @@ export default function ResetPassword() {
   });
 
   const handleSubmit = (values) => {
+    setLoading(true);
     instance
       .patch(`auth/resetPassword/${token}`, { password: values.password })
       .then(() => {
@@ -34,8 +37,11 @@ export default function ResetPassword() {
         });
         navigate("/auth");
       })
-      .catch((err) => console.log("Response - " + err));
+      .catch((err) => console.log("Response - " + err))
+      .finally(() => setLoading(false));
   };
+
+  if (loading) return <Spinner />;
 
   return (
     <Flex size={460} h="100vh" mx="auto" justify="center" align="center" direction="column">

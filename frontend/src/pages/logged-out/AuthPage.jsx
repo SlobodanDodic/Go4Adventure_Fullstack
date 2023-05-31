@@ -1,5 +1,5 @@
 import AuthContext from "../../context/AuthContext";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useToggle, upperFirst } from "@mantine/hooks";
 import { useForm } from "@mantine/form";
@@ -7,10 +7,12 @@ import { TextInput, PasswordInput, Paper, Group, Button, Divider, Anchor, Stack,
 import { GoogleButton, TwitterButton } from "../../components/SocialButtons/SocialButtons";
 import { notifications } from "@mantine/notifications";
 import logo from "../../assets/logo.png";
+import Spinner from "../../components/Spinner";
 
 export default function AuthPage(props) {
   const { instance, notificationcss, setUser, setToken } = useContext(AuthContext);
   const [type, toggle] = useToggle(["login", "register"]);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const form = useForm({
@@ -33,7 +35,8 @@ export default function AuthPage(props) {
     validate: { password: (val) => (val.length <= 6 ? "Password should include at least 7 characters" : null) },
   });
 
-  const handleRegister = (values) =>
+  const handleRegister = (values) => {
+    setLoading(true);
     instance
       .post("auth/register", {
         username: values.username,
@@ -48,9 +51,12 @@ export default function AuthPage(props) {
           styles: () => notificationcss,
         });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => setLoading(false));
+  };
 
-  const handleLogin = (values) =>
+  const handleLogin = (values) => {
+    setLoading(true);
     instance
       .post("auth/login", { username: values.username, password: values.password })
       .then((res) => {
@@ -63,7 +69,11 @@ export default function AuthPage(props) {
           styles: () => notificationcss,
         });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => setLoading(false));
+  };
+
+  if (loading) return <Spinner />;
 
   return (
     <Flex h="100vh" justify="center" align="center">

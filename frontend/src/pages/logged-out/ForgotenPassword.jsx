@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import AuthContext from "../../context/AuthContext";
 import { useForm } from "@mantine/form";
 import { useNavigate } from "react-router-dom";
@@ -6,15 +6,19 @@ import { Paper, Title, Text, TextInput, Button, Flex, Group, Anchor, Center, Box
 import { IconArrowLeft } from "@tabler/icons-react";
 import { notifications } from "@mantine/notifications";
 import logo from "../../assets/logo.png";
+import Spinner from "../../components/Spinner";
 
 export default function ForgotenPassword() {
   const { notificationcss, instance } = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const form = useForm({
     initialValues: { email: "" },
     validate: { email: (val) => (/^\S+@\S+$/.test(val) ? null : "Invalid email") },
   });
+
+  if (loading) return <Spinner />;
 
   return (
     <Flex size={460} h="100vh" mx="auto" justify="center" align="center" direction="column">
@@ -27,6 +31,7 @@ export default function ForgotenPassword() {
 
       <form
         onSubmit={form.onSubmit(() => {
+          setLoading(true);
           instance
             .post("auth/forgotPassword", { email: form.values.email })
             .then((res) => {
@@ -38,7 +43,8 @@ export default function ForgotenPassword() {
                 styles: () => notificationcss,
               });
             })
-            .catch((err) => console.log("Error: " + err));
+            .catch((err) => console.log("Error: " + err))
+            .finally(() => setLoading(false));
         })}
       >
         <Paper withBorder shadow="md" p={30} radius="md" mt="xl">
