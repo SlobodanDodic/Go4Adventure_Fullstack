@@ -49,6 +49,6 @@ export default function PrivateRoutes() {
       <Outlet />
     </AppShell>
   ) : (
-    <Navigate to="/login" />
+    <Navigate to="/auth" />
   );
 }

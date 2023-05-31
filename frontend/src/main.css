@@ -29,22 +29,6 @@
   color: var(--light-blue);
 }
 
-/* Notification */
-.mantine-86bg6z {
-  max-width: 20rem;
-}
-.mantine-1pr6igm {
-  background-color: var(--dark-blue);
-}
-.mantine-n5di6h,
-.mantine-5fxtu3,
-.mantine-13oh7kq,
-.mantine-1x5zumq {
-  color: white;
-  font-size: 0.75rem;
-  font-weight: 600;
-}
-
 /* Tours / table */
 .mantine-1tfyvjm thead tr th {
   color: var(--dark-blue);
@@ -58,10 +42,6 @@
 .mantine-upcmq9 {
   border-top: 0.5px solid white;
 }
-/* .mantine-1jlz8kg[data-hover] tbody tr:hover,
-.mantine-1jlz8kg[data-striped] tbody tr:nth-of-type(odd):hover {
-  cursor: pointer;
-} */
 
 /* Add-Edit Tours Page */
 .mantine-1fhkwm7 {

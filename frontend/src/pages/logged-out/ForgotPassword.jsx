@@ -1,10 +1,14 @@
+import { useContext } from "react";
+import AuthContext from "../../context/AuthContext";
 import { useForm } from "@mantine/form";
 import { useNavigate } from "react-router-dom";
 import { Paper, Title, Text, TextInput, Button, Flex, Group, Anchor, Center, Box, Image } from "@mantine/core";
 import { IconArrowLeft } from "@tabler/icons-react";
 import { notifications } from "@mantine/notifications";
+import logo from "../../assets/logo.png";
 
 export default function ForgotPassword() {
+  const { notificationcss } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const form = useForm({
@@ -24,11 +28,11 @@ export default function ForgotPassword() {
       <form
         onSubmit={form.onSubmit(() => {
           console.log(form.values);
-          navigate("/login");
+          navigate("/auth");
           notifications.show({
-            autoClose: 3000,
             message: "Email has been sent! 👀 Check your inbox.",
             color: "orange",
+            styles: () => notificationcss,
           });
         })}
       >
@@ -42,7 +46,7 @@ export default function ForgotPassword() {
             error={form.errors.email && "Invalid email"}
           />
           <Group position="apart" mt="lg">
-            <Anchor color="dimmed" size="sm" w="100%" onClick={() => navigate("/login")}>
+            <Anchor color="dimmed" size="sm" w="100%" onClick={() => navigate("/auth")}>
               <Center inline w="100%">
                 <IconArrowLeft size="1rem" stroke={1.5} />
                 <Box ml={5}>Back to the login page</Box>
@@ -55,7 +59,7 @@ export default function ForgotPassword() {
         </Paper>
       </form>
 
-      <Image maw={240} mx="auto" mt="3rem" radius="md" pb={30} src="./src/assets/logo.png" alt="logo" />
+      <Image maw={240} mx="auto" mt="3rem" radius="md" pb={30} src={logo} alt="logo" />
     </Flex>
   );
 }
