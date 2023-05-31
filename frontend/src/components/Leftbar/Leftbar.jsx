@@ -59,7 +59,8 @@ export default function Leftbar({ setOpened }) {
             rightIcon={<IconLogout size="1rem" stroke={1.5} />}
             onClick={() => {
               localStorage.removeItem("user");
-              navigate("login");
+              localStorage.removeItem("token");
+              navigate("auth");
             }}
             c="dark-blue"
           >

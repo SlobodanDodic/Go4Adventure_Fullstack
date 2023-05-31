@@ -25,67 +25,85 @@ export default function AuthPage(props) {
     },
   });
 
+  const loginForm = useForm({
+    initialValues: {
+      username: "",
+      password: "",
+    },
+    validate: { password: (val) => (val.length <= 6 ? "Password should include at least 7 characters" : null) },
+  });
+
+  const handleRegister = (values) =>
+    instance
+      .post("auth/register", {
+        username: values.username,
+        email: values.email,
+        password: values.password,
+      })
+      .then(() => {
+        navigate("/");
+        notifications.show({
+          message: "Email has been sent! 👀 Check your inbox.",
+          color: "orange",
+          styles: () => notificationcss,
+        });
+      })
+      .catch((err) => console.log(err));
+
+  const handleLogin = (values) =>
+    instance
+      .post("auth/login", { username: values.username, password: values.password })
+      .then((res) => {
+        setUser(res.data?.loggedUser);
+        setToken(res.data?.refreshToken);
+        navigate("/");
+        notifications.show({
+          message: "Welcome!",
+          color: "orange",
+          styles: () => notificationcss,
+        });
+      })
+      .catch((err) => console.log(err));
+
   return (
     <Flex h="100vh" justify="center" align="center">
       <Paper radius="md" p="xl" {...props}>
         <Image maw={240} mx="auto" radius="md" pb={30} src={logo} alt="logo" />
 
         <form
-          onSubmit={form.onSubmit((values) => {
-            type === "register" &&
-              instance
-                .post("auth/register", { username: values.username, email: values.email, password: values.password })
-                .then((res) => {
-                  console.log(res);
-                  navigate("/");
-                  notifications.show({
-                    message: "Email has been sent! 👀 Check your inbox.",
-                    color: "orange",
-                    styles: () => notificationcss,
-                  });
-                })
-                .catch((err) => console.log(err));
-
-            type === "login" &&
-              instance
-                .post("auth/login", { username: values.username, password: values.password })
-                .then((res) => {
-                  setUser(res.data?.loggedUser);
-                  setToken(res.data?.refreshToken);
-                  console.log(res.data);
-                  navigate("/");
-                  notifications.show({
-                    message: "Welcome!",
-                    color: "orange",
-                    styles: () => notificationcss,
-                  });
-                })
-                .catch((err) => console.log(err));
-          })}
+          onSubmit={
+            type === "register"
+              ? form.onSubmit((values) => handleRegister(values))
+              : loginForm.onSubmit((values) => handleLogin(values))
+          }
         >
           <Stack style={{ position: "relative" }}>
-            {type === "login" && (
+            {type === "login" ? (
               <Anchor
                 className="forgotPassword"
                 href="#"
-                onClick={(event) => {
-                  event.preventDefault();
+                onClick={(e) => {
+                  e.preventDefault();
                   navigate("/reset");
                 }}
               >
                 Forgot your password?
               </Anchor>
-            )}
+            ) : null}
 
             <TextInput
               required
               label="Username"
               placeholder="Your username"
-              value={form.values.username}
-              onChange={(e) => form.setFieldValue("username", e.currentTarget.value)}
+              value={type === "register" ? form.values.username : loginForm.values.username}
+              onChange={(e) =>
+                type === "register"
+                  ? form.setFieldValue("username", e.currentTarget.value)
+                  : loginForm.setFieldValue("username", e.currentTarget.value)
+              }
               radius="md"
             />
-            {type === "register" && (
+            {type === "register" ? (
               <TextInput
                 required
                 label="Email"
@@ -95,13 +113,18 @@ export default function AuthPage(props) {
                 error={form.errors.email && "Invalid email"}
                 radius="md"
               />
-            )}
+            ) : null}
             <PasswordInput
               required
               label="Password"
               placeholder="Your password"
-              value={form.values.password}
-              onChange={(e) => form.setFieldValue("password", e.currentTarget.value)}
+              value={type === "register" ? form.values.password : loginForm.values.password}
+              // onChange={(e) => form.setFieldValue("password", e.currentTarget.value)}
+              onChange={(e) =>
+                type === "register"
+                  ? form.setFieldValue("password", e.currentTarget.value)
+                  : loginForm.setFieldValue("password", e.currentTarget.value)
+              }
               error={form.errors.password && "Password should include at least 6 characters"}
               radius="md"
             />
