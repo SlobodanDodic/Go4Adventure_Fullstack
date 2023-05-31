@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { UserButton } from "./UserButton";
 import { Button, Flex, NavLink, Stack } from "@mantine/core";
 import { IconGauge, IconTrekking, IconActivity, IconCurrencyDollar, IconLogout } from "@tabler/icons-react";
+import { notifications } from "@mantine/notifications";
 
 const data = [
   { icon: IconGauge, label: "Dashboard", description: "Tours statistics & calculations", path: "/" },
@@ -13,9 +14,24 @@ const data = [
 ];
 
 export default function Leftbar({ setOpened }) {
-  const { user, loggedUser } = useContext(AuthContext);
+  const { user, loggedUser, instance, setUser, setToken, notificationcss } = useContext(AuthContext);
   const [active, setActive] = useState(null);
   const navigate = useNavigate();
+
+  const handleSignout = () => {
+    instance
+      .post("auth/signout")
+      .then(() => {
+        setUser(null);
+        setToken(null);
+        notifications.show({
+          message: "Successfully logged out!",
+          color: "orange",
+          styles: () => notificationcss,
+        });
+      })
+      .catch((err) => console.log(err));
+  };
 
   const items = data.map((item, index) => (
     <NavLink
@@ -58,9 +74,8 @@ export default function Leftbar({ setOpened }) {
             variant="subtile"
             rightIcon={<IconLogout size="1rem" stroke={1.5} />}
             onClick={() => {
-              localStorage.removeItem("user");
-              localStorage.removeItem("token");
-              navigate("auth");
+              handleSignout();
+              navigate("/");
             }}
             c="dark-blue"
           >
