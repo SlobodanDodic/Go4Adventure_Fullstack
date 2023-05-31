@@ -10,7 +10,8 @@ import Superscript from "@tiptap/extension-superscript";
 import SubScript from "@tiptap/extension-subscript";
 
 export default function RichTextEdit({ data }) {
-  const [content, setContent] = useState(data.contentData);
+  // const [content, setContent] = useState(data.contentData);
+  const [content] = useState(data.contentData);
   const { role } = useContext(AuthContext);
   const roleEditable = role === "admin" ? true : false;
 
