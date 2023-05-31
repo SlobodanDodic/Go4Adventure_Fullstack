@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext, useState } from "react";
 import useLocalStorage from "../hooks/useLocalStorage";
 import { useMediaQuery } from "@mantine/hooks";
 import axios from "axios";
@@ -7,7 +7,7 @@ const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useLocalStorage("user", null);
-  const [token, setToken] = useLocalStorage("token", null);
+  const [token, setToken] = useState(null);
   const smallScreen = useMediaQuery("(max-width: 350px)");
 
   const notificationcss = {

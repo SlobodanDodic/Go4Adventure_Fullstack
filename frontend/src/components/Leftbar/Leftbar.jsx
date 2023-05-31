@@ -14,23 +14,22 @@ const data = [
 ];
 
 export default function Leftbar({ setOpened }) {
-  const { user, loggedUser, instance, setUser, setToken, notificationcss } = useContext(AuthContext);
+  const { user, loggedUser, setUser, notificationcss } = useContext(AuthContext);
   const [active, setActive] = useState(null);
   const navigate = useNavigate();
 
   const handleSignout = () => {
-    instance
-      .post("auth/signout")
-      .then(() => {
-        setUser(null);
-        setToken(null);
-        notifications.show({
-          message: "Successfully logged out!",
-          color: "orange",
-          styles: () => notificationcss,
-        });
-      })
-      .catch((err) => console.log(err));
+    // instance
+    // .post("auth/signout")
+    // .then(() => {
+    setUser(null);
+    notifications.show({
+      message: "Successfully logged out!",
+      color: "orange",
+      styles: () => notificationcss,
+    });
+    // })
+    // .catch((err) => console.log(err));
   };
 
   const items = data.map((item, index) => (
@@ -39,7 +38,6 @@ export default function Leftbar({ setOpened }) {
       active={index === active}
       label={item.label}
       description={item.description}
-      // rightSection={item.rightSection}
       icon={<item.icon size="1rem" stroke={1.5} />}
       onClick={() => {
         setActive(index);

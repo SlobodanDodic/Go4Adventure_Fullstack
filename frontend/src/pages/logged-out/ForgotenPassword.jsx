@@ -7,8 +7,8 @@ import { IconArrowLeft } from "@tabler/icons-react";
 import { notifications } from "@mantine/notifications";
 import logo from "../../assets/logo.png";
 
-export default function ForgotPassword() {
-  const { notificationcss } = useContext(AuthContext);
+export default function ForgotenPassword() {
+  const { notificationcss, instance } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const form = useForm({
@@ -27,13 +27,18 @@ export default function ForgotPassword() {
 
       <form
         onSubmit={form.onSubmit(() => {
-          console.log(form.values);
-          navigate("/auth");
-          notifications.show({
-            message: "Email has been sent! 👀 Check your inbox.",
-            color: "orange",
-            styles: () => notificationcss,
-          });
+          instance
+            .post("auth/forgotPassword", { email: form.values.email })
+            .then((res) => {
+              console.log(res);
+              navigate("/auth");
+              notifications.show({
+                message: "Email has been sent! 👀 Check your inbox.",
+                color: "orange",
+                styles: () => notificationcss,
+              });
+            })
+            .catch((err) => console.log("Error: " + err));
         })}
       >
         <Paper withBorder shadow="md" p={30} radius="md" mt="xl">

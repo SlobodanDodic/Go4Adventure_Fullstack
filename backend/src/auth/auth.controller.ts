@@ -64,13 +64,13 @@ export class AuthController {
   // 
 
   @Post('forgotPassword')
-  forgot(@Body() dto: AuthDtoForgot) {
-    return this.authService.forgot(dto);
+  forgotenPassword(@Body() dto: AuthDtoForgot) {
+    return this.authService.forgotenPassword(dto);
   }
 
   @Patch('resetPassword/:token')
-  reset(@Param('token') token: string, @Body("password") password: string) {
-    return this.authService.reset(token, password);
+  resetPassword(@Param('token') token: string, @Body("password") password: string) {
+    return this.authService.resetPassword(token, password);
   }
 
 }

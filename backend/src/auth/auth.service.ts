@@ -188,7 +188,7 @@ export class AuthService {
 
   // old way
 
-  async forgot(dto: AuthDtoForgot) {
+  async forgotenPassword(dto: AuthDtoForgot) {
     const { email } = dto;
     const foundUser = await this.prisma.user.findUnique({ where: { email } });
 
@@ -208,7 +208,7 @@ export class AuthService {
     return { message: "Link for password change was successfully sent! Please check your email box..." };
   }
 
-  async reset(token: string, password: string) {
+  async resetPassword(token: string, password: string) {
     const hashedPassword = await argon2.hash(password);
 
 

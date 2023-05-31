@@ -4,7 +4,7 @@ import { Notifications } from "@mantine/notifications";
 import { theme } from "./theme";
 // Logged Out Pages
 import AuthPage from "./pages/logged-out/AuthPage";
-import ForgotPassword from "./pages/logged-out/ForgotPassword";
+import ForgotenPassword from "./pages/logged-out/ForgotenPassword";
 import Activation from "./pages/logged-out/Activation";
 import ResetPassword from "./pages/logged-out/ResetPassword";
 // Logged In Pages
@@ -24,7 +24,7 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/auth" element={<AuthPage />} />
-          <Route path="/reset" element={<ForgotPassword />} />
+          <Route path="/reset" element={<ForgotenPassword />} />
           <Route path="activate/:token" element={<Activation />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route element={<PrivateRoutes />}>
