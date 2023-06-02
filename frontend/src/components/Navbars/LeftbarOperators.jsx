@@ -2,18 +2,18 @@ import { useState, useContext } from "react";
 import AuthContext from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { UserButton } from "./UserButton";
-import { Button, Flex, NavLink, Stack } from "@mantine/core";
+import { Button, Flex, NavLink, Navbar, Stack } from "@mantine/core";
 import { IconGauge, IconTrekking, IconActivity, IconCurrencyDollar, IconLogout } from "@tabler/icons-react";
 import { notifications } from "@mantine/notifications";
 
 const data = [
-  { icon: IconGauge, label: "Dashboard", description: "Tours statistics & calculations", path: "/" },
-  { icon: IconTrekking, label: "Tours", description: "Add, edit & delete tours", path: "tours" },
-  { icon: IconActivity, label: "Activity", description: "Current affairs & happenings", path: "activity" },
-  { icon: IconCurrencyDollar, label: "Finance", description: "Cash flow & payments", path: "finance" },
+  { icon: IconGauge, label: "Dashboard", description: "Tours statistics & calculations", path: "/operators" },
+  { icon: IconTrekking, label: "Tours", description: "Add, edit & delete tours", path: "/operators/tours" },
+  { icon: IconActivity, label: "Activity", description: "Current affairs & happenings", path: "/operators/activity" },
+  { icon: IconCurrencyDollar, label: "Finance", description: "Cash flow & payments", path: "/operators/finance" },
 ];
 
-export default function Leftbar({ setOpened }) {
+export default function LeftbarOperators({ opened, setOpened }) {
   const { user, loggedUser, setUser, notificationcss } = useContext(AuthContext);
   const [active, setActive] = useState(null);
   const navigate = useNavigate();
@@ -45,7 +45,16 @@ export default function Leftbar({ setOpened }) {
   ));
 
   return (
-    <>
+    <Navbar
+      p="md"
+      hiddenBreakpoint="sm"
+      hidden={!opened}
+      width={{ sm: 175, lg: 300 }}
+      bg="gray.0"
+      gap="lg"
+      direction="column"
+      sx={{ justifyContent: "space-between" }}
+    >
       <Stack> {items} </Stack>
       <Stack>
         <UserButton
@@ -77,6 +86,6 @@ export default function Leftbar({ setOpened }) {
           </Button>
         </Flex>
       </Stack>
-    </>
+    </Navbar>
   );
 }

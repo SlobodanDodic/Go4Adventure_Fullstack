@@ -6,6 +6,12 @@
   --orange: #fdb500;
 }
 
+@media screen and (max-width: 48rem) {
+  .mantine-AppShell-main {
+    padding: 2.5rem 0px;
+  }
+}
+
 /* Global mantine css */
 .mantine-1qwkbb3[data-active] {
   background-color: #0000000a;
@@ -54,4 +60,13 @@
 }
 .mantine-1n6rb1r {
   font-size: 0.75rem;
+}
+
+/* Carousel */
+.mantine-19swgkw {
+  top: 0rem;
+  height: 17px;
+  padding: 5px;
+  border: 1px solid #8080803c;
+  background-color: #00000050;
 }

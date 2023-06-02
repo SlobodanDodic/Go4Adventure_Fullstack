@@ -1,5 +1,5 @@
-import { useContext, useState } from "react";
-import AuthContext from "../context/AuthContext";
+import { useState } from "react";
+// import AuthContext from "../context/AuthContext";
 import { RichTextEditor, Link } from "@mantine/tiptap";
 import { useEditor } from "@tiptap/react";
 import Highlight from "@tiptap/extension-highlight";
@@ -12,10 +12,8 @@ import SubScript from "@tiptap/extension-subscript";
 export default function RichTextEdit({ data }) {
   // const [content, setContent] = useState(data.contentData);
   const [content] = useState(data.contentData);
-  const { role } = useContext(AuthContext);
-  const roleEditable = role === "admin" ? true : false;
-
-  console.log(roleEditable);
+  // const { role } = useContext(AuthContext);
+  // const roleEditable = role === "admin" ? true : false;
 
   const editor = useEditor({
     extensions: [

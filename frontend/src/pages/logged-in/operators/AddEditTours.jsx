@@ -3,9 +3,9 @@ import { Button, Flex, SimpleGrid, createStyles, rem, TextInput, NumberInput, Ce
 import { DatePickerInput } from "@mantine/dates";
 import { useNavigate } from "react-router-dom";
 import { useId } from "@mantine/hooks";
-import { groups } from "../../components/Tours/categoriesData";
-import { GroupPicker } from "../../components/Tours/GroupPicker";
-import RichTextEdit from "../../components/RichTextEdit";
+import { groups } from "../../../components/Tours/categoriesData";
+import { GroupPicker } from "../../../components/Tours/GroupPicker";
+import RichTextEdit from "../../../components/RichTextEdit";
 import { IconAlignLeft } from "@tabler/icons-react";
 
 export default function AddEditTours() {

@@ -3,9 +3,9 @@ import { AppShell } from "@mantine/core";
 import { Navigate, Outlet } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 import Topbar from "./Navbars/Topbar";
-import Leftbar from "./Navbars/Leftbar";
+import LeftbarOperators from "./Navbars/LeftbarOperators";
 
-export default function PrivateRoutes() {
+export default function PrivateRoutesOperators() {
   const { user } = useContext(AuthContext);
   const [opened, setOpened] = useState(false);
 
@@ -13,7 +13,7 @@ export default function PrivateRoutes() {
     <AppShell
       navbarOffsetBreakpoint="sm"
       asideOffsetBreakpoint="sm"
-      navbar={<Leftbar setOpened={setOpened} opened={opened} />}
+      navbar={<LeftbarOperators setOpened={setOpened} opened={opened} />}
       header={<Topbar opened={opened} setOpened={setOpened} />}
     >
       <Outlet />

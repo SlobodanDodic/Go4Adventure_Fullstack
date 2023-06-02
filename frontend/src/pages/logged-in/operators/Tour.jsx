@@ -1,12 +1,12 @@
 import { useContext, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import AuthContext from "../../context/AuthContext";
+import AuthContext from "../../../context/AuthContext";
 import { Button, Flex, SimpleGrid, createStyles, rem, TextInput, NumberInput, Center, Box } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
 import { useId } from "@mantine/hooks";
-import { groups } from "../../components/Tours/categoriesData";
-import { GroupPicker } from "../../components/Tours/GroupPicker";
-import RichTextEdit from "../../components/RichTextEdit";
+import { groups } from "../../../components/Tours/categoriesData";
+import { GroupPicker } from "../../../components/Tours/GroupPicker";
+import RichTextEdit from "../../../components/RichTextEdit";
 import { IconAlignLeft } from "@tabler/icons-react";
 
 export default function Tour() {
