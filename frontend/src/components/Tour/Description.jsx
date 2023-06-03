@@ -1,8 +1,18 @@
-import { createStyles, Paper, Text, rem, Stepper } from "@mantine/core";
-import { IconCategory, IconUsersGroup } from "@tabler/icons-react";
+import { createStyles, Paper, Stepper, rem } from "@mantine/core";
+import { IconCategory, IconUsersGroup, IconHttpOptions } from "@tabler/icons-react";
+import { RichTextEditor, Link } from "@mantine/tiptap";
+import { useEditor } from "@tiptap/react";
+import TextAlign from "@tiptap/extension-text-align";
+import StarterKit from "@tiptap/starter-kit";
 
 export function Description({ data }) {
   const { classes } = useStyles();
+
+  const editor = useEditor({
+    extensions: [Link, TextAlign.configure({ types: ["heading", "paragraph"] }), StarterKit],
+    editable: false,
+    content: data.contentData,
+  });
 
   return (
     <Paper withBorder radius="md" m={10} className={classes.card}>
@@ -19,14 +29,16 @@ export function Description({ data }) {
           color="blue"
           completedIcon={<IconCategory size="1rem" />}
         />
-        <Stepper.Step description={data.subcategory} label="subcategory" color="yellow" />
+        <Stepper.Step
+          description={data.subcategory}
+          label="subcategory"
+          color="yellow"
+          completedIcon={<IconHttpOptions size="1rem" />}
+        />
       </Stepper>
-      <Text size="xl" weight={600} mt="md">
-        {data.subcategory}
-      </Text>
-      <Text size="xs" mt="sm" color="dimmed">
-        {data.contentData}
-      </Text>
+      <RichTextEditor editor={editor} maw={1200} my={16}>
+        <RichTextEditor.Content />
+      </RichTextEditor>
     </Paper>
   );
 }
@@ -34,7 +46,7 @@ export function Description({ data }) {
 const useStyles = createStyles((theme) => ({
   card: {
     position: "relative",
-    cursor: "pointer",
+    cursor: "default",
     overflow: "hidden",
     transition: "transform 150ms ease, box-shadow 100ms ease",
     padding: theme.spacing.sm,
