@@ -1,11 +1,20 @@
+import { useContext, useState } from "react";
+import AuthContext from "../../../context/AuthContext";
 import { Flex, SimpleGrid } from "@mantine/core";
 import TourCard from "../../../components/TourCards/TourCard";
 import { TextInput, ActionIcon } from "@mantine/core";
 import { IconSearch, IconArrowRight } from "@tabler/icons-react";
 import { toursData } from "../../../components/Tours/toursData";
-import { useState } from "react";
+import Spinner from "../../../components/Spinner";
+import useSWR from "swr";
 
 export default function Home() {
+  const { instance } = useContext(AuthContext);
+  const { data, error, isLoading } = useSWR("/post", instance.get);
+
+  console.log(data?.data);
+  console.log(toursData);
+
   const [search, setSearch] = useState("");
   const filteredTours = toursData.filter((tour) => {
     return (
@@ -13,6 +22,9 @@ export default function Home() {
       tour.text.toLocaleLowerCase().includes(search.toLocaleLowerCase())
     );
   });
+
+  if (isLoading) return <Spinner />;
+  if (error) return <h1>{error}</h1>;
 
   return (
     <Flex justify="center" align="center" direction="column" my={22}>

@@ -62,7 +62,7 @@ export default function AuthPage(props) {
       .then((res) => {
         setUser(res.data?.loggedUser);
         setToken(res.data?.refreshToken);
-        navigate("/");
+        navigate("/home");
         notifications.show({
           message: "Welcome!",
           color: "orange",
