@@ -11,26 +11,26 @@ export function Description({ data }) {
   const editor = useEditor({
     extensions: [Link, TextAlign.configure({ types: ["heading", "paragraph"] }), StarterKit],
     editable: false,
-    content: data.contentData,
+    content: data?.editorText,
   });
 
   return (
     <Paper withBorder radius="md" m={10} className={classes.card}>
       <Stepper active={3} size="xs" breakpoint="sm">
         <Stepper.Step
-          description={data.group}
+          description={data?.group}
           label="group"
           completedIcon={<IconUsersGroup size="1rem" />}
           color="black"
         />
         <Stepper.Step
-          description={data.category}
+          description={data?.category}
           label="category"
           color="blue"
           completedIcon={<IconCategory size="1rem" />}
         />
         <Stepper.Step
-          description={data.subcategory}
+          description={data?.subcategory}
           label="subcategory"
           color="yellow"
           completedIcon={<IconHttpOptions size="1rem" />}

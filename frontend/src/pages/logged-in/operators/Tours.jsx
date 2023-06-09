@@ -33,7 +33,7 @@ export default function Tours() {
             description="Add new tour"
             icon={<IconTextPlus size="1.5rem" stroke={1.5} />}
             onClick={() => {
-              navigate("/add-edit-tours");
+              navigate("add-edit-tours");
             }}
             fw="bold"
             w="auto"

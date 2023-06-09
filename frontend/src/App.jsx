@@ -36,7 +36,7 @@ export default function App() {
             <Route path="/operators" element={<Dashboard />} />
             <Route path="/operators/tours" element={<Tours />} />
             <Route path="/operators/tours/:title" element={<Tour />} />
-            <Route path="/operators/add-edit-tours" element={<AddEditTours />} />
+            <Route path="/operators/tours/add-edit-tours" element={<AddEditTours />} />
             <Route path="/operators/activity" element={<Activity />} />
             <Route path="/operators/finance" element={<Finance />} />
             <Route path="/operators/profile" element={<ProfilePage />} />

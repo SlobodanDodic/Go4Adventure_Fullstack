@@ -4,22 +4,21 @@ import { Flex, SimpleGrid } from "@mantine/core";
 import TourCard from "../../../components/TourCards/TourCard";
 import { TextInput, ActionIcon } from "@mantine/core";
 import { IconSearch, IconArrowRight } from "@tabler/icons-react";
-import { toursData } from "../../../components/Tours/toursData";
+// import { toursData } from "../../../components/Tours/toursData";
 import Spinner from "../../../components/Spinner";
 import useSWR from "swr";
 
 export default function Home() {
   const { instance } = useContext(AuthContext);
   const { data, error, isLoading } = useSWR("/post", instance.get);
-
-  console.log(data?.data);
-  console.log(toursData);
-
   const [search, setSearch] = useState("");
-  const filteredTours = toursData.filter((tour) => {
+
+  const toursData = data?.data;
+
+  const filteredTours = toursData?.filter((tour) => {
     return (
       tour.title.toLocaleLowerCase().includes(search.toLocaleLowerCase()) ||
-      tour.text.toLocaleLowerCase().includes(search.toLocaleLowerCase())
+      tour.editorText.toLocaleLowerCase().includes(search.toLocaleLowerCase())
     );
   });
 

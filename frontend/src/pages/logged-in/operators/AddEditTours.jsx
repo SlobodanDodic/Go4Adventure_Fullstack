@@ -9,15 +9,22 @@ import RichTextEdit from "../../../components/RichTextEdit";
 import { IconAlignLeft } from "@tabler/icons-react";
 
 export default function AddEditTours() {
-  const [value, setValue] = useState([]);
-  // const [textValue, setTextValue] = useState("");
   const [group, setGroup] = useState(groups[0]);
   const [category, setCategory] = useState(groups[0].categories[0]);
   const [subcategory, setSubcategory] = useState(groups[0].categories[0].subcategories[0]);
+  const [title, setTitle] = useState("");
+  const [dateRange, setDateRange] = useState([]);
+  const [price, setPrice] = useState([]);
+  const [richText, setRichText] = useState("");
 
   const { classes } = useStyles();
   const navigate = useNavigate();
   const uuid = useId();
+
+  const handleSubmit = () => {
+    console.log(group, category, subcategory, title, dateRange, price);
+    console.log(richText);
+  };
 
   return (
     <Flex direction="column">
@@ -38,14 +45,20 @@ export default function AddEditTours() {
       />
 
       <SimpleGrid mt="md" maw="1200px" breakpoints={[{ minWidth: "sm", cols: 3 }]}>
-        <TextInput label="Title" placeholder="Group title" classNames={classes} />
+        <TextInput
+          label="Title"
+          placeholder="Group title"
+          classNames={classes}
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
 
         <DatePickerInput
           type="range"
           label="Pick dates range"
           placeholder="Pick dates range"
-          value={value}
-          onChange={setValue}
+          value={dateRange}
+          onChange={setDateRange}
           size="xs"
           classNames={classes}
         />
@@ -53,7 +66,7 @@ export default function AddEditTours() {
         <NumberInput
           classNames={classes}
           label="Price"
-          defaultValue={1000}
+          onChange={setPrice}
           parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
           formatter={(value) =>
             !Number.isNaN(parseFloat(value)) ? `$ ${value}`.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") : "$ "
@@ -61,24 +74,18 @@ export default function AddEditTours() {
         />
       </SimpleGrid>
 
-      {/* <Textarea
-        classNames={classes}
-        value={textValue}
-        onChange={(e) => setTextValue(e.currentTarget.textValue)}
-        label="Event description"
-        placeholder="Add an event description using up to 1000 characters."
-        autosize
-        minRows={2}
-        mt="md"
-        maw="1200px"
-      /> */}
-
       <Center mt={16}>
         <IconAlignLeft size={rem(14)} />
         <Box ml={5}>Add aditional text</Box>
       </Center>
 
-      <RichTextEdit classNames={classes} />
+      <RichTextEdit classNames={classes} setRichText={setRichText} />
+
+      <Flex w="100%">
+        <Button onClick={handleSubmit} size="xs" bg="dark-blue">
+          Submit form
+        </Button>
+      </Flex>
     </Flex>
   );
 }

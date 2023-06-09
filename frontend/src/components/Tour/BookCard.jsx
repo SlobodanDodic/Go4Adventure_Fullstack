@@ -1,8 +1,17 @@
+import { useContext } from "react";
+import AuthContext from "../../context/AuthContext";
 import { createStyles, Card, Text, Group, Avatar, Button, Divider, SimpleGrid } from "@mantine/core";
 import { IconBellRingingFilled, IconThumbUpFilled } from "@tabler/icons-react";
 
 export function BookCard({ data }) {
+  const { instance } = useContext(AuthContext);
   const { classes } = useStyles();
+
+  // eslint-disable-next-line
+  const getImages = async () => {
+    return await instance.get(`/post/${data?.images[0].path}`);
+  };
+
   return (
     <SimpleGrid
       cols={2}
@@ -13,10 +22,16 @@ export function BookCard({ data }) {
     >
       <Card withBorder radius="md" p={0} className={classes.card}>
         <Group noWrap spacing={0}>
-          <Avatar src={data.coverImg} alt={data.title} radius="xl" size="xl" m={10} />
+          <Avatar
+            src={`${process.env.REACT_APP_SERVER}/post/${data?.images[0].path}`}
+            alt={data?.title}
+            radius="xl"
+            size="xl"
+            m={10}
+          />
           <div className={classes.body}>
             <Text transform="uppercase" weight={800} size="xs" color="#0b4668">
-              {data.title}
+              {data?.title}
             </Text>
             <Divider
               my="xs"
@@ -25,8 +40,8 @@ export function BookCard({ data }) {
                 <>
                   <IconBellRingingFilled size={13} style={{ color: "#fdb500" }} />
                   <Text weight={800} size="xs" color="#0b4668" ml={5}>
-                    {/* {data.date.map((item) => ()} */}
-                    {data.date}
+                    datum
+                    {data?.date}
                   </Text>
                 </>
               }

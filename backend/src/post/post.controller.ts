@@ -1,13 +1,15 @@
-import { Body, Controller, FileTypeValidator, Get, MaxFileSizeValidator, Param, ParseFilePipe, Post, UploadedFiles, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, FileTypeValidator, Get, MaxFileSizeValidator, Param, ParseFilePipe, Post, StreamableFile, UploadedFiles, UseInterceptors } from '@nestjs/common';
 import { PostService } from './post.service';
 import { Public } from 'src/common/decorators/public.decorator';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { PostDto } from './dto/post.dto';
 import { diskStorage } from 'multer';
-import { extname } from 'path';
+import { extname, join } from 'path';
+import { createReadStream } from 'fs';
 
 const defaultConfig = diskStorage({
-  destination: './uploads',
+  // destination: './uploads',
+  destination: process.env.UPLOAD_DIR,
   filename: (req, file, cb) => {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
     const filename = `${uniqueSuffix}${extname(file.originalname)}`;
@@ -46,5 +48,11 @@ export class PostController {
     return this.postService.createPost(dto, files);
   }
 
+  @Get('uploads/:id')
+  getFile(@Param('id') id: string): StreamableFile {
+    const image = createReadStream(join(process.cwd(), `uploads/${id}`));
+    console.log(image);
+    return new StreamableFile(image);
+  }
 
 }

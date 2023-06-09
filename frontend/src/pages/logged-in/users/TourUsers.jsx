@@ -1,17 +1,24 @@
+import { useContext } from "react";
+import AuthContext from "../../../context/AuthContext";
 import { useLocation } from "react-router-dom";
 import { createStyles, Title, Container, rem, Image, Text } from "@mantine/core";
 import { Dots } from "../../../components/Tour/Dots";
-import { AccordionText } from "../../../components/Tour/AccordionText";
+// import { AccordionText } from "../../../components/Tour/AccordionText";
 import { Description } from "../../../components/Tour/Description";
 import { Carousel } from "@mantine/carousel";
 import { ContactUs } from "../../../components/Tour/ContactUs";
 import { BookCard } from "../../../components/Tour/BookCard";
 
 export default function TourUsers() {
+  const { instance } = useContext(AuthContext);
+  const { classes } = useStyles();
   const location = useLocation();
   const data = location.state?.data;
 
-  const { classes } = useStyles();
+  // eslint-disable-next-line
+  const getImages = async () => {
+    return await instance.get(`/post/${data?.image.path}`);
+  };
 
   return (
     <Container className={classes.wrapper} size={1400}>
@@ -20,23 +27,23 @@ export default function TourUsers() {
       <Dots className={classes.dots} style={{ left: 0, top: 140 }} />
       <Dots className={classes.dots} style={{ right: 0, top: 60 }} />
 
-      <Title className={classes.title}> {data.title} </Title>
+      <Title className={classes.title}> {data?.title} </Title>
 
       <div className={classes.inner}></div>
 
       <Description data={data} />
 
       <Carousel withIndicators loop mt={44}>
-        {data.images.map((image) => (
-          <Carousel.Slide key={image}>
-            <Image src={image} height={320} />
+        {data?.images.map((image) => (
+          <Carousel.Slide key={image.id}>
+            <Image src={`${process.env.REACT_APP_SERVER}/post/${image.path}`} height={320} />
           </Carousel.Slide>
         ))}
       </Carousel>
 
-      <AccordionText data={data} />
+      {/* <AccordionText data={data} /> */}
 
-      <Text transform="uppercase" weight={800} size="md" ta="center" color="#0b4668">
+      <Text transform="uppercase" weight={800} mt={25} size="md" ta="center" color="#0b4668">
         Choose dates for this adventure:
       </Text>
       <BookCard data={data} />

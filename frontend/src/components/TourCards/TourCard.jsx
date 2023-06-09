@@ -1,3 +1,5 @@
+import { useContext } from "react";
+import AuthContext from "../../context/AuthContext";
 import { createStyles, Image, Card, Text, Group, getStylesRef, rem, Center, Rating, ActionIcon } from "@mantine/core";
 import { Carousel } from "@mantine/carousel";
 import {
@@ -10,11 +12,17 @@ import {
 import { Link } from "react-router-dom";
 
 export default function TourCard({ tour }) {
+  const { instance } = useContext(AuthContext);
   const { classes, theme } = useStyles();
 
+  // eslint-disable-next-line
+  const getImages = async () => {
+    return await instance.get(`/post/${tour?.image.path}`);
+  };
+
   const slides = tour.images.map((image) => (
-    <Carousel.Slide key={image}>
-      <Image src={image} height={220} />
+    <Carousel.Slide key={image.id}>
+      <Image src={`${process.env.REACT_APP_SERVER}/post/${image.path}`} height={220} />
     </Carousel.Slide>
   ));
 

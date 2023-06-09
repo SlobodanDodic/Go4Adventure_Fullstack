@@ -15,7 +15,8 @@ export const AuthProvider = ({ children }) => {
     description: { color: "lightgray", fontSize: "0.75rem", fontWeight: "600" },
   };
 
-  const role = "user";
+  // const role = "user";
+  const role = "admin";
 
   const loggedUser = {
     avatar:

@@ -7,7 +7,12 @@ export class PostService {
   constructor(private prisma: PrismaService) { }
 
   async getPosts() {
-    return await this.prisma.post.findMany();
+    return await this.prisma.post.findMany({
+      include: {
+        author: { select: { username: true, email: true } },
+        images: { select: { path: true, id: true } },
+      },
+    });
   }
 
   async getPost(id: string) {
@@ -15,9 +20,6 @@ export class PostService {
       where: { id: id },
       select: {
         author: { select: { username: true, email: true } },
-        images: { select: { path: true } },
-        comments: true,
-        likes: true,
         group: true,
         category: true,
         subcategory: true,
@@ -25,6 +27,9 @@ export class PostService {
         price: true,
         editorText: true,
         location: true,
+        likes: true,
+        comments: true,
+        images: { select: { path: true } },
       }
     })
   }
@@ -36,9 +41,7 @@ export class PostService {
 
     return await this.prisma.post.create({
       data: {
-        author: {
-          connect: { username: dto.author }
-        },
+        author: { connect: { username: dto.author } },
         group: dto.group,
         category: dto.category,
         subcategory: dto.subcategory,
@@ -46,9 +49,7 @@ export class PostService {
         price: dto.price,
         editorText: dto.editorText,
         location: dto.location,
-        images: {
-          createMany: ({ data: dataPath }),
-        }
+        images: { createMany: ({ data: dataPath }), }
       },
     });
   }
