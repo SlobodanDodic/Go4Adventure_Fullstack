@@ -1,19 +1,7 @@
-import { Body, Controller, FileTypeValidator, Get, MaxFileSizeValidator, Param, ParseFilePipe, Post, UploadedFiles, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { PostService } from './post.service';
 import { Public } from 'src/common/decorators/public.decorator';
-import { FilesInterceptor } from '@nestjs/platform-express';
 import { PostDto } from './dto/post.dto';
-import { diskStorage } from 'multer';
-import { extname } from 'path';
-
-const defaultConfig = diskStorage({
-  destination: process.env.UPLOAD_DIR,
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    const filename = `${uniqueSuffix}${extname(file.originalname)}`;
-    cb(null, filename);
-  }
-})
 
 @Public()
 @Controller('post')
@@ -35,6 +23,14 @@ export class PostController {
     return this.postService.createPost(dto);
   }
 
+  // const defaultConfig = diskStorage({
+  //   destination: process.env.UPLOAD_DIR,
+  //   filename: (req, file, cb) => {
+  //     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+  //     const filename = `${uniqueSuffix}${extname(file.originalname)}`;
+  //     cb(null, filename);
+  //   }
+  // })
   // @Post('create')
   // @UseInterceptors(FilesInterceptor('files', 20, { storage: defaultConfig }))
   // createPost(@Body() dto: PostDto, @UploadedFiles(
