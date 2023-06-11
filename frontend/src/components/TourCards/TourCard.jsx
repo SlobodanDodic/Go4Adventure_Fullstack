@@ -17,12 +17,12 @@ export default function TourCard({ tour }) {
 
   // eslint-disable-next-line
   const getImages = async () => {
-    return await instance.get(`/post/${tour?.image.path}`);
+    return await instance.get(`/gallery/${tour?.image?.path}`);
   };
 
   const slides = tour.images.map((image) => (
     <Carousel.Slide key={image.id}>
-      <Image src={`${process.env.REACT_APP_SERVER}/post/${image.path}`} height={220} />
+      <Image src={`${process.env.REACT_APP_SERVER}/gallery/${image.path}`} height={220} />
     </Carousel.Slide>
   ));
 

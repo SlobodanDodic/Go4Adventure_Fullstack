@@ -10,7 +10,6 @@ export class PostService {
     return await this.prisma.post.findMany({
       include: {
         author: { select: { username: true, email: true } },
-        images: { select: { path: true, id: true } },
       },
     });
   }
@@ -28,17 +27,13 @@ export class PostService {
         editorText: true,
         location: true,
         likes: true,
+        dateRange: true,
         comments: true,
-        images: { select: { path: true } },
       }
     })
   }
 
-  async createPost(dto: PostDto, files: any) {
-    const dataPath = files.map((file: any) => ({
-      path: file.path
-    }))
-
+  async createPost(dto: PostDto) {
     return await this.prisma.post.create({
       data: {
         author: { connect: { username: dto.author } },
@@ -49,9 +44,31 @@ export class PostService {
         price: dto.price,
         editorText: dto.editorText,
         location: dto.location,
-        images: { createMany: ({ data: dataPath }), }
+        dateRange: dto.dateRange,
       },
     });
   }
+
+  // async createPost(dto: PostDto, files: any) {
+  //   const dataPath = files.map((file: any) => ({
+  //     path: file.path
+  //   }))
+
+  //   return await this.prisma.post.create({
+  //     data: {
+  //       author: { connect: { username: dto.author } },
+  //       group: dto.group,
+  //       category: dto.category,
+  //       subcategory: dto.subcategory,
+  //       title: dto.title,
+  //       price: dto.price,
+  //       editorText: dto.editorText,
+  //       location: dto.location,
+  //       images: { createMany: ({ data: dataPath }), }
+  //     },
+  //   });
+  // }
+
+
 }
 

@@ -39,6 +39,10 @@ export class PostDto {
   public location: string;
 
   @IsString()
+  @IsOptional()
+  public dateRange: string;
+
+  @IsString()
   @IsNotEmpty()
   @IsOptional()
   public likes: Like['id'];

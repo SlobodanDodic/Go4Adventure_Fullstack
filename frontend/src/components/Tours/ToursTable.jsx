@@ -37,7 +37,7 @@ export function ToursTable() {
       <td>
         <Group spacing={0} position="center">
           <ActionIcon>
-            <Link to={`/tours/${item.title}`} state={{ data: item }} style={{ color: "green" }}>
+            <Link to={`${item.title}`} state={{ data: item }} style={{ color: "green" }}>
               <IconEye size="1rem" stroke={1.5} />
             </Link>
           </ActionIcon>
@@ -46,7 +46,7 @@ export function ToursTable() {
       <td>
         <Group spacing={0} position="center">
           <ActionIcon>
-            <Link to={`/tours/${item.title}`} state={{ data: item }} style={{ color: "darkred" }}>
+            <Link to={`${item.title}`} state={{ data: item }} style={{ color: "darkred" }}>
               <IconTrashXFilled size="1rem" stroke={1.5} />
             </Link>
           </ActionIcon>

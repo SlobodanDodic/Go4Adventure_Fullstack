@@ -7,6 +7,7 @@ import { PostModule } from './post/post.module';
 import { MulterModule } from '@nestjs/platform-express';
 import { APP_GUARD } from '@nestjs/core';
 import { AssignedTokenGuard } from './common/guards/assigned_token.guard';
+import { GalleryModule } from './gallery/gallery.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { AssignedTokenGuard } from './common/guards/assigned_token.guard';
     AuthModule,
     PrismaModule,
     PostModule,
+    GalleryModule,
   ],
   providers: [
     {

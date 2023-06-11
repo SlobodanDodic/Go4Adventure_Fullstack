@@ -23,6 +23,7 @@ model User {
   isActivated    Boolean  @default(false)
 
   profile  Profile?
+  images   Gallery[]
   posts    Post[]
   comments Comment[]
   likes    Like[]
@@ -30,16 +31,25 @@ model User {
 }
 
 model Profile {
-  id         String  @unique @default(uuid())
+  id         String   @unique @default(uuid())
+  createdAt  DateTime @default(now())
   info       String?
   profileImg String?
-  user       User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId     String  @unique
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String   @unique
+}
+
+model Gallery {
+  id        String   @unique @default(uuid())
+  createdAt DateTime @default(now())
+  path      String
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId  String
 }
 
 model Post {
   id          String   @unique @default(uuid())
-  published   DateTime @default(now())
+  createdAt   DateTime @default(now())
   group       String
   category    String
   subcategory String
@@ -47,25 +57,17 @@ model Post {
   price       String
   editorText  String
   location    String
+  dateRange   String
 
-  images   Gallery[]
   likes    Like[]
   comments Comment[]
   author   User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId String
 }
 
-model Gallery {
-  id         String   @unique @default(uuid())
-  created_at DateTime @default(now())
-  path       String
-  post       Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
-  postId     String
-}
-
 model Comment {
   id              String   @unique @default(uuid())
-  created_at      DateTime @default(now())
+  createdAt       DateTime @default(now())
   body            String
   post            Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId          String
@@ -74,10 +76,10 @@ model Comment {
 }
 
 model Like {
-  id         String   @unique @default(uuid())
-  created_at DateTime @default(now())
-  post       Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
-  postId     String
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId     String
+  id        String   @unique @default(uuid())
+  createdAt DateTime @default(now())
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
 }

@@ -4,14 +4,35 @@ import { RichTextEditor, Link } from "@mantine/tiptap";
 import { useEditor } from "@tiptap/react";
 import TextAlign from "@tiptap/extension-text-align";
 import StarterKit from "@tiptap/starter-kit";
+import Image from "@tiptap/extension-image";
+import Underline from "@tiptap/extension-underline";
+import Superscript from "@tiptap/extension-superscript";
+import Subscript from "@tiptap/extension-subscript";
+import Highlight from "@tiptap/extension-highlight";
+import TextStyle from "@tiptap/extension-text-style";
+import Color from "@tiptap/extension-color";
 
 export function Description({ data }) {
   const { classes } = useStyles();
 
   const editor = useEditor({
-    extensions: [Link, TextAlign.configure({ types: ["heading", "paragraph"] }), StarterKit],
+    extensions: [
+      TextAlign.configure({ types: ["heading", "paragraph"] }),
+      StarterKit,
+      Underline,
+      Link,
+      Superscript,
+      Subscript,
+      Highlight,
+      TextStyle,
+      Color,
+      Image,
+    ],
     editable: false,
-    content: data?.editorText,
+    content: {
+      type: "doc",
+      content: JSON.parse(data?.editorText),
+    },
   });
 
   return (

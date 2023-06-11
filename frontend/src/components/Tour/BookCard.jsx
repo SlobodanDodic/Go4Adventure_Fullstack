@@ -9,7 +9,7 @@ export function BookCard({ data }) {
 
   // eslint-disable-next-line
   const getImages = async () => {
-    return await instance.get(`/post/${data?.images[0].path}`);
+    return await instance.get(`/gallery/${data?.images[0].path}`);
   };
 
   return (
@@ -23,7 +23,7 @@ export function BookCard({ data }) {
       <Card withBorder radius="md" p={0} className={classes.card}>
         <Group noWrap spacing={0}>
           <Avatar
-            src={`${process.env.REACT_APP_SERVER}/post/${data?.images[0].path}`}
+            src={`${process.env.REACT_APP_SERVER}/gallery/${data?.images[0]?.path}`}
             alt={data?.title}
             radius="xl"
             size="xl"

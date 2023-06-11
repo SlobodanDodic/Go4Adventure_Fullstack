@@ -12,20 +12,22 @@ import TextStyle from "@tiptap/extension-text-style";
 import Image from "@tiptap/extension-image";
 import { Color } from "@tiptap/extension-color";
 import { Button } from "@mantine/core";
+import CarouselModal from "./CarouselModal";
 
 export default function RichTextEdit({ data, setRichText }) {
   const [content, setContent] = useState(data?.editorText);
   const { role } = useContext(AuthContext);
+  const [opened, setOpened] = useState(false);
 
   const editor = useEditor({
     extensions: [
+      TextAlign.configure({ types: ["heading", "paragraph"] }),
       StarterKit,
       Underline,
       Link,
       Superscript,
       SubScript,
       Highlight,
-      TextAlign.configure({ types: ["heading", "paragraph"] }),
       TextStyle,
       Color,
       Image,
@@ -38,21 +40,14 @@ export default function RichTextEdit({ data, setRichText }) {
     content,
   });
 
-  const addImage = () => {
-    const url = window.prompt("URL");
-
-    if (url) {
-      editor.chain().focus().setImage({ src: url }).run();
-    }
-  };
-
   return (
     <RichTextEditor editor={editor} maw={1200} my={16}>
       {role === "admin" ? (
         <RichTextEditor.Toolbar sticky stickyOffset={60}>
-          <Button onClick={addImage} size="xs" bg="dark-blue">
-            Add image from URL
+          <Button onClick={() => setOpened(true)} size="xs" bg="dark-blue">
+            Add image
           </Button>
+          <CarouselModal opened={opened} setOpened={setOpened} editor={editor} />
 
           <RichTextEditor.ControlsGroup>
             <RichTextEditor.Bold />
