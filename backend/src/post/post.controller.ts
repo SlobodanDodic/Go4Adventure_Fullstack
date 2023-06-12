@@ -30,11 +30,6 @@ export class PostController {
     return this.postService.getPost(id);
   }
 
-  // @Post('create')
-  // createPost(@Body() dto: PostDto) {
-  //   return this.postService.createPost(dto);
-  // }
-
   @Post('create')
   @UseInterceptors(FileInterceptor('file', { storage: defaultConfig }))
   createPost(@Body() dto: PostDto, @UploadedFile(

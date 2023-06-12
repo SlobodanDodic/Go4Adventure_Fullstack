@@ -33,22 +33,6 @@ export class PostService {
     })
   }
 
-  // async createPost(dto: PostDto) {
-  //   return await this.prisma.post.create({
-  //     data: {
-  //       author: { connect: { username: dto.author } },
-  //       group: dto.group,
-  //       category: dto.category,
-  //       subcategory: dto.subcategory,
-  //       title: dto.title,
-  //       price: dto.price,
-  //       editorText: dto.editorText,
-  //       location: dto.location,
-  //       dateRange: dto.dateRange,
-  //     },
-  //   });
-  // }
-
   async createPost(dto: PostDto, file: any) {
     return await this.prisma.post.create({
       data: {
