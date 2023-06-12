@@ -3,12 +3,13 @@ import AuthContext from "../../context/AuthContext";
 import { Link } from "react-router-dom";
 import { Avatar, Table, Group, Text, ActionIcon, ScrollArea } from "@mantine/core";
 import { IconTrashXFilled, IconEye } from "@tabler/icons-react";
-import { toursData } from "./toursData";
+// import { toursData } from "./toursData";
 
 export function ToursTable() {
   const { role } = useContext(AuthContext);
+  const toursData = [];
 
-  const rows = toursData.map((item, i) => (
+  const rows = toursData?.map((item, i) => (
     <tr key={i}>
       <td>
         <Group spacing="sm">

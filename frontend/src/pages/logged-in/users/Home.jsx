@@ -21,6 +21,7 @@ export default function Home() {
       tour.editorText.toLocaleLowerCase().includes(search.toLocaleLowerCase())
     );
   });
+  console.log(filteredTours);
 
   if (isLoading) return <Spinner />;
   if (error) return <h1>{error}</h1>;

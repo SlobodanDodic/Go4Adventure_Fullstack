@@ -59,6 +59,9 @@ export class UserService {
         profile: {
           select: { info: true, profileImg: true },
         },
+        images: {
+          select: { path: true },
+        }
       }
     })
   }

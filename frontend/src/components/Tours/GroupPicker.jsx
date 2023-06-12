@@ -7,7 +7,17 @@ export function GroupPicker({ groups, group, category, subcategory, setGroup, se
   const { classes } = useStyles({ opened });
 
   return (
-    <SimpleGrid mt="md" maw="1200px" breakpoints={[{ minWidth: "sm", cols: 3 }]}>
+    <SimpleGrid
+      cols={3}
+      spacing="lg"
+      mt="md"
+      maw="1200px"
+      breakpoints={[
+        { maxWidth: "md", cols: 2, spacing: "md" },
+        { maxWidth: "sm", cols: 2, spacing: "sm" },
+        { maxWidth: "xs", cols: 1, spacing: "sm" },
+      ]}
+    >
       <Menu onOpen={() => setOpened(true)} onClose={() => setOpened(false)} radius="md" withinPortal>
         <Menu.Target>
           <UnstyledButton className={classes.control}>
@@ -42,6 +52,7 @@ export function GroupPicker({ groups, group, category, subcategory, setGroup, se
             <Group>
               <span className={classes.label}>{category.name}</span>
             </Group>
+            <IconChevronDown size="1rem" className={classes.icon} stroke={1.5} />
           </UnstyledButton>
         </Menu.Target>
         <Menu.Dropdown w="auto">
@@ -66,6 +77,7 @@ export function GroupPicker({ groups, group, category, subcategory, setGroup, se
             <Group>
               <span className={classes.label}>{subcategory.name}</span>
             </Group>
+            <IconChevronDown size="1rem" className={classes.icon} stroke={1.5} />
           </UnstyledButton>
         </Menu.Target>
         <Menu.Dropdown w="auto">

@@ -20,7 +20,8 @@ export default function TourCard({ tour }) {
     return await instance.get(`/gallery/${tour?.image?.path}`);
   };
 
-  const slides = tour.images.map((image) => (
+  console.log(tour);
+  const slides = tour?.images.map((image) => (
     <Carousel.Slide key={image.id}>
       <Image src={`${process.env.REACT_APP_SERVER}/gallery/${image.path}`} height={220} />
     </Carousel.Slide>

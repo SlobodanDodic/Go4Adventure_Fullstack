@@ -43,6 +43,10 @@ export class PostDto {
   public dateRange: string;
 
   @IsString()
+  @IsOptional()
+  public coverImg: string;
+
+  @IsString()
   @IsNotEmpty()
   @IsOptional()
   public likes: Like['id'];

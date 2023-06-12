@@ -1,13 +1,25 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import AuthContext from "../context/AuthContext";
 import { Modal, rem } from "@mantine/core";
 import { Carousel, useAnimationOffsetEffect } from "@mantine/carousel";
+import useSWR from "swr";
+import Spinner from "./Spinner";
 
 export default function CarouselModal({ opened, setOpened, editor }) {
-  const TRANSITION_DURATION = 200;
-  // const [embla, setEmbla] = (useState < Embla) | (null > null);
-  const [embla, setEmbla] = useState(null);
+  const { user, instance } = useContext(AuthContext);
 
+  const TRANSITION_DURATION = 200;
+  const [embla, setEmbla] = useState(null);
   useAnimationOffsetEffect(embla, TRANSITION_DURATION);
+
+  // eslint-disable-next-line
+  const getImages = async () => {
+    return await instance.get(`/gallery/${data?.data?.images?.path}`);
+  };
+
+  const { data, error, isLoading } = useSWR(`/user/profile/${user}`, instance.get);
+
+  const imgArray = data?.data?.images;
 
   const addImage = (e) => {
     const url = e.target.getAttribute("src");
@@ -16,6 +28,9 @@ export default function CarouselModal({ opened, setOpened, editor }) {
     }
     setOpened(false);
   };
+
+  if (isLoading) return <Spinner />;
+  if (error) return <h1>{error}</h1>;
 
   return (
     <Modal
@@ -27,30 +42,16 @@ export default function CarouselModal({ opened, setOpened, editor }) {
       onClose={() => setOpened(false)}
     >
       <Carousel loop getEmblaApi={setEmbla} maw={300}>
-        <Carousel.Slide>
-          <img
-            src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bmF0dXJlfGVufDB8fDB8fHww&auto=format&fit=crop&w=700&q=60"
-            alt="unsplash"
-            style={{ width: rem(300), height: rem(200), objectFit: "cover" }}
-            onClick={addImage}
-          />
-        </Carousel.Slide>
-        <Carousel.Slide>
-          <img
-            src="https://images.unsplash.com/photo-1426604966848-d7adac402bff?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8bmF0dXJlfGVufDB8fDB8fHww&auto=format&fit=crop&w=700&q=60"
-            alt="unsplash"
-            style={{ width: rem(300), height: rem(200), objectFit: "cover" }}
-            onClick={addImage}
-          />
-        </Carousel.Slide>
-        <Carousel.Slide>
-          <img
-            src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fG5hdHVyZXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=700&q=60"
-            alt="unsplash"
-            style={{ width: rem(300), height: rem(200), objectFit: "cover" }}
-            onClick={addImage}
-          />
-        </Carousel.Slide>
+        {imgArray?.map((img, i) => (
+          <Carousel.Slide key={i}>
+            <img
+              src={`${process.env.REACT_APP_SERVER}/gallery/${img.path}`}
+              alt={img.path}
+              style={{ width: rem(300), height: rem(200), objectFit: "cover" }}
+              onClick={addImage}
+            />
+          </Carousel.Slide>
+        ))}
       </Carousel>
     </Modal>
   );

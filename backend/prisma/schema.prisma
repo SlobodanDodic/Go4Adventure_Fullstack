@@ -58,6 +58,7 @@ model Post {
   editorText  String
   location    String
   dateRange   String
+  coverImg    String
 
   likes    Like[]
   comments Comment[]
