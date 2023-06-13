@@ -1,11 +1,10 @@
 import { useContext, useState } from "react";
 import AuthContext from "../../../context/AuthContext";
 import { Flex, SimpleGrid } from "@mantine/core";
-import TourCard from "../../../components/TourCards/TourCard";
+import TourCard from "../../../components/common/TourCard";
 import { TextInput, ActionIcon } from "@mantine/core";
 import { IconSearch, IconArrowRight } from "@tabler/icons-react";
-// import { toursData } from "../../../components/Tours/toursData";
-import Spinner from "../../../components/Spinner";
+import Spinner from "../../../components/common/Spinner";
 import useSWR from "swr";
 
 export default function Home() {
@@ -21,7 +20,6 @@ export default function Home() {
       tour.editorText.toLocaleLowerCase().includes(search.toLocaleLowerCase())
     );
   });
-  console.log(filteredTours);
 
   if (isLoading) return <Spinner />;
   if (error) return <h1>{error}</h1>;
@@ -46,7 +44,7 @@ export default function Home() {
         onChange={(e) => setSearch(e.target.value)}
       />
       <SimpleGrid cols={2} spacing="xl" breakpoints={[{ maxWidth: "36rem", cols: 1, spacing: "md" }]}>
-        {filteredTours.map((tour) => (
+        {filteredTours?.map((tour) => (
           <TourCard tour={tour} key={tour.id} />
         ))}
       </SimpleGrid>

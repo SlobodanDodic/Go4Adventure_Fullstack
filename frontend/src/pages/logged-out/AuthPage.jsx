@@ -4,10 +4,10 @@ import { useNavigate } from "react-router-dom";
 import { useToggle, upperFirst } from "@mantine/hooks";
 import { useForm } from "@mantine/form";
 import { TextInput, PasswordInput, Paper, Group, Button, Divider, Anchor, Stack, Flex, Image } from "@mantine/core";
-import { GoogleButton, TwitterButton } from "../../components/SocialButtons/SocialButtons";
+import { GoogleButton, TwitterButton } from "../../components/socialButtons/SocialButtons";
 import { notifications } from "@mantine/notifications";
 import logo from "../../assets/logo.png";
-import Spinner from "../../components/Spinner";
+import Spinner from "../../components/common/Spinner";
 
 export default function AuthPage(props) {
   const { instance, notificationcss, setUser, setToken } = useContext(AuthContext);

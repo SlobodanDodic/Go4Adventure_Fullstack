@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { notifications } from "@mantine/notifications";
 import { Button, Flex, Image, Text, Title } from "@mantine/core";
 import logo from "../../assets/logo.png";
-import Spinner from "../../components/Spinner";
+import Spinner from "../../components/common/Spinner";
 
 export default function Activation() {
   const { instance, notificationcss } = useContext(AuthContext);

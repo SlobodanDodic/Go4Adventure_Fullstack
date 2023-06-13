@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { Flex, NavLink, TextInput, ActionIcon, Divider, Container } from "@mantine/core";
 import { IconTextPlus, IconSearch, IconArrowRight } from "@tabler/icons-react";
 import AuthContext from "../../../context/AuthContext";
-import { ToursTable } from "../../../components/Tours/ToursTable";
+import { ToursTable } from "../../../components/operators/ToursTable";
 import { useContext } from "react";
 
 export default function Tours() {

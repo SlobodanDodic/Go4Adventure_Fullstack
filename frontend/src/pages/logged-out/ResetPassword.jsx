@@ -5,7 +5,7 @@ import { Button, Flex, PasswordInput, Paper, Image } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
 import logo from "../../assets/logo.png";
-import Spinner from "../../components/Spinner";
+import Spinner from "../../components/common/Spinner";
 
 export default function ResetPassword() {
   const { instance, notificationcss } = useContext(AuthContext);

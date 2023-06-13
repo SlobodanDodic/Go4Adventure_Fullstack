@@ -6,7 +6,7 @@ import { Paper, Title, Text, TextInput, Button, Flex, Group, Anchor, Center, Box
 import { IconArrowLeft } from "@tabler/icons-react";
 import { notifications } from "@mantine/notifications";
 import logo from "../../assets/logo.png";
-import Spinner from "../../components/Spinner";
+import Spinner from "../../components/common/Spinner";
 
 export default function ForgotenPassword() {
   const { notificationcss, instance } = useContext(AuthContext);

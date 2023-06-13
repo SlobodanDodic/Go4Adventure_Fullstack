@@ -4,11 +4,11 @@ import { Button, Flex, SimpleGrid, createStyles, TextInput, NumberInput, Center,
 import { DatePickerInput } from "@mantine/dates";
 import { useNavigate } from "react-router-dom";
 import { useId } from "@mantine/hooks";
-import { groups } from "../../../components/Tours/categoriesData";
-import { GroupPicker } from "../../../components/Tours/GroupPicker";
-import RichTextEdit from "../../../components/RichTextEdit";
+import { categoriesData } from "../../../components/operators/categoriesData";
+import { GroupPicker } from "../../../components/operators/GroupPicker";
+import RichTextEdit from "../../../components/common/RichTextEdit";
 import { IconAlignLeft, IconUpload } from "@tabler/icons-react";
-import Spinner from "../../../components/Spinner";
+import Spinner from "../../../components/common/Spinner";
 import { notifications } from "@mantine/notifications";
 // import useSWR from "swr";
 // import { mutate } from "swr";
@@ -17,9 +17,9 @@ export default function AddEditTours() {
   const { instance, user, notificationcss } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
 
-  const [group, setGroup] = useState(groups[0]);
-  const [category, setCategory] = useState(groups[0].categories[0]);
-  const [subcategory, setSubcategory] = useState(groups[0].categories[0].subcategories[0]);
+  const [group, setGroup] = useState(categoriesData[0]);
+  const [category, setCategory] = useState(categoriesData[0].categories[0]);
+  const [subcategory, setSubcategory] = useState(categoriesData[0].categories[0].subcategories[0]);
   const [title, setTitle] = useState("");
   const [dateRange, setDateRange] = useState([]);
   const [price, setPrice] = useState([]);
@@ -105,7 +105,7 @@ export default function AddEditTours() {
       </Flex>
 
       <GroupPicker
-        groups={groups}
+        categoriesData={categoriesData}
         group={group}
         category={category}
         subcategory={subcategory}

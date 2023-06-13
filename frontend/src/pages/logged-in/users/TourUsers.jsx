@@ -1,19 +1,18 @@
-// import { useContext } from "react";
-// import AuthContext from "../../../context/AuthContext";
-import { useLocation } from "react-router-dom";
-import { createStyles, Title, Container, rem, Text } from "@mantine/core";
-import { Dots } from "../../../components/Tour/Dots";
-// import { AccordionText } from "../../../components/Tour/AccordionText";
-import { Description } from "../../../components/Tour/Description";
+import { useContext } from "react";
+import AuthContext from "../../../context/AuthContext";
+import { useLocation, Link } from "react-router-dom";
+import { createStyles, Title, Container, rem, Text, Center } from "@mantine/core";
+import { Dots } from "../../../components/users/TourUsers/Dots";
+import { Description } from "../../../components/users/Description";
 // import { Carousel } from "@mantine/carousel";
-import { ContactUs } from "../../../components/Tour/ContactUs";
-import { BookCard } from "../../../components/Tour/BookCard";
+import { ContactUs } from "../../../components/users/TourUsers/ContactUs";
+import { BookCard } from "../../../components/users/TourUsers/BookCard";
 
 export default function TourUsers() {
-  // const { instance } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const { classes } = useStyles();
   const location = useLocation();
-  const data = location.state?.data;
+  const data = location?.state?.data;
 
   // eslint-disable-next-line
   // const getImages = async () => {
@@ -43,11 +42,21 @@ export default function TourUsers() {
         ))}
       </Carousel> */}
 
-      <Text transform="uppercase" weight={800} mt={25} size="md" ta="center" color="#0b4668">
-        Choose dates for this adventure:
-      </Text>
-      <BookCard data={data} />
-      <ContactUs />
+      {!!user ? (
+        <>
+          <Text transform="uppercase" weight={800} mt={35} size="md" ta="center" color="#0b4668">
+            Choose dates for this adventure:
+          </Text>
+          <BookCard data={data} />
+          <ContactUs />
+        </>
+      ) : (
+        <Center>
+          <Link radius="md" to={`/auth`} className={classes.linkButton}>
+            Login for more
+          </Link>
+        </Center>
+      )}
     </Container>
   );
 }
@@ -89,6 +98,14 @@ const useStyles = createStyles((theme) => ({
     [theme.fn.smallerThan("xs")]: {
       fontSize: rem(28),
     },
+  },
+  linkButton: {
+    textDecoration: "none",
+    padding: "4px 10px",
+    backgroundColor: "#0b4668",
+    color: "white",
+    borderRadius: "5px",
+    marginTop: "20px",
   },
   // description: {
   //   textAlign: "center",

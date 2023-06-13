@@ -8,17 +8,17 @@ import ForgotenPassword from "./pages/logged-out/ForgotenPassword";
 import Activation from "./pages/logged-out/Activation";
 import ResetPassword from "./pages/logged-out/ResetPassword";
 // Logged In Pages
-import PrivateRoutes from "./components/PrivateRoutes";
-import PrivateRoutesOperators from "./components/PrivateRoutesOperators";
+import PrivateRoutesUsers from "./components/privateRoutes/PrivateRoutesUsers";
+import PrivateRoutesOperators from "./components/privateRoutes/PrivateRoutesOperators";
 import Home from "./pages/logged-in/users/Home";
 import Tours from "./pages/logged-in/operators/Tours";
 import Activity from "./pages/logged-in/operators/Activity";
 import Finance from "./pages/logged-in/operators/Finance";
-import ProfilePage from "./pages/logged-in/users/ProfilePage";
+import ProfilePage from "./pages/logged-in/common/ProfilePage";
 import AddEditTours from "./pages/logged-in/operators/AddEditTours";
 import Tour from "./pages/logged-in/operators/Tour";
 import Dashboard from "./pages/logged-in/operators/Dashboard";
-import ToursUsers from "./pages/logged-in/users/TourUsers";
+import TourUsers from "./pages/logged-in/users/TourUsers";
 import ActivityUsers from "./pages/logged-in/users/ActivityUsers";
 
 export default function App() {
@@ -27,11 +27,15 @@ export default function App() {
       <Notifications position="top-right" autoClose={3000} containerWidth="20rem" zIndex={2077} />
       <BrowserRouter>
         <Routes>
+          {/* Publicly available */}
           <Route path="/" element={<Home />} />
+          <Route path="/:title" element={<TourUsers />} />
+          {/* Auth pages */}
           <Route path="/auth" element={<AuthPage />} />
           <Route path="/reset" element={<ForgotenPassword />} />
           <Route path="activate/:token" element={<Activation />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
+          {/* Protected for operators */}
           <Route element={<PrivateRoutesOperators />}>
             <Route path="/operators" element={<Dashboard />} />
             <Route path="/operators/tours" element={<Tours />} />
@@ -41,10 +45,10 @@ export default function App() {
             <Route path="/operators/finance" element={<Finance />} />
             <Route path="/operators/profile" element={<ProfilePage />} />
           </Route>
-          <Route element={<PrivateRoutes />}>
+          {/* Protected for users */}
+          <Route element={<PrivateRoutesUsers />}>
             <Route path="/home" element={<Home />} />
-            <Route path="/home/:title" element={<ToursUsers />} />
-            <Route path="/:title" element={<ToursUsers />} />
+            <Route path="/home/:title" element={<TourUsers />} />
             <Route path="/activity" element={<ActivityUsers />} />
             <Route path="/profile" element={<ProfilePage />} />
           </Route>
