@@ -11,7 +11,7 @@ import SubScript from "@tiptap/extension-subscript";
 import TextStyle from "@tiptap/extension-text-style";
 import Image from "@tiptap/extension-image";
 import { Color } from "@tiptap/extension-color";
-import { Button } from "@mantine/core";
+import { Button, Chip } from "@mantine/core";
 import CarouselModal from "./CarouselModal";
 
 export default function RichTextEdit({ data, setRichText }) {
@@ -40,6 +40,12 @@ export default function RichTextEdit({ data, setRichText }) {
     content,
   });
 
+  const BlockIcon = () => (
+    <Chip defaultChecked size="xs" radius="xs" variant="filled" color="dark-blue">
+      Add section
+    </Chip>
+  );
+
   return (
     <RichTextEditor editor={editor} maw={1200} my={16}>
       {role === "admin" ? (
@@ -67,7 +73,6 @@ export default function RichTextEdit({ data, setRichText }) {
           </RichTextEditor.ControlsGroup>
 
           <RichTextEditor.ControlsGroup>
-            <RichTextEditor.Blockquote />
             <RichTextEditor.Hr />
             <RichTextEditor.BulletList />
             <RichTextEditor.OrderedList />
@@ -87,25 +92,27 @@ export default function RichTextEdit({ data, setRichText }) {
             <RichTextEditor.AlignRight />
           </RichTextEditor.ControlsGroup>
 
+          <RichTextEditor.ColorPicker
+            colors={[
+              "#25262b",
+              "#868e96",
+              "#fa5252",
+              "#e64980",
+              "#be4bdb",
+              "#7950f2",
+              "#4c6ef5",
+              "#228be6",
+              "#15aabf",
+              "#12b886",
+              "#40c057",
+              "#82c91e",
+              "#fab005",
+              "#fd7e14",
+            ]}
+          />
+
           <RichTextEditor.ControlsGroup>
-            <RichTextEditor.ColorPicker
-              colors={[
-                "#25262b",
-                "#868e96",
-                "#fa5252",
-                "#e64980",
-                "#be4bdb",
-                "#7950f2",
-                "#4c6ef5",
-                "#228be6",
-                "#15aabf",
-                "#12b886",
-                "#40c057",
-                "#82c91e",
-                "#fab005",
-                "#fd7e14",
-              ]}
-            />
+            <RichTextEditor.Blockquote icon={BlockIcon} />
           </RichTextEditor.ControlsGroup>
         </RichTextEditor.Toolbar>
       ) : null}

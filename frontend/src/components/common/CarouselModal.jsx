@@ -12,18 +12,19 @@ export default function CarouselModal({ opened, setOpened, editor }) {
   const [embla, setEmbla] = useState(null);
   useAnimationOffsetEffect(embla, TRANSITION_DURATION);
 
-  // eslint-disable-next-line
-  const getImages = async () => {
-    return await instance.get(`/gallery/${data?.data?.images?.path}`);
-  };
-
   const { data, error, isLoading } = useSWR(`/user/profile/${user}`, instance.get);
 
   const imgArray = data?.data?.images;
 
+  // eslint-disable-next-line
+  const getImages = async () => {
+    return await instance.get(`/gallery/${imgArray.path}`);
+  };
+
   const addImage = (e) => {
     const url = e.target.getAttribute("src");
     if (url) {
+      console.log(url);
       editor.chain().focus().setImage({ src: url }).run();
     }
     setOpened(false);

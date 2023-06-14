@@ -17,6 +17,9 @@ export function Description({ data }) {
 
   const richText = JSON.parse(data?.editorText);
 
+  const richTextType = richText?.filter((value) => value.type);
+  console.log(richTextType);
+
   const editor = useEditor({
     extensions: [
       TextAlign.configure({ types: ["heading", "paragraph"] }),

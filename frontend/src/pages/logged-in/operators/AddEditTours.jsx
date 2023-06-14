@@ -79,7 +79,7 @@ export default function AddEditTours() {
     }
 
     instance
-      .post("/gallery/uploads", formData)
+      .post(`/gallery/uploads/${user}`, formData)
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
   };
