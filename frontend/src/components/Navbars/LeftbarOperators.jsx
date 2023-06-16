@@ -1,10 +1,11 @@
 import { useState, useContext } from "react";
 import AuthContext from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { UserButton } from "./UserButton";
+import { ProfileButton } from "./ProfileButton";
 import { Button, Flex, NavLink, Navbar, Stack } from "@mantine/core";
 import { IconGauge, IconTrekking, IconActivity, IconCurrencyDollar, IconLogout } from "@tabler/icons-react";
 import { notifications } from "@mantine/notifications";
+import Spinner from "../common/Spinner";
 
 const data = [
   { icon: IconGauge, label: "Dashboard", description: "Tours statistics & calculations", path: "/operators" },
@@ -14,19 +15,34 @@ const data = [
 ];
 
 export default function LeftbarOperators({ opened, setOpened }) {
-  const { user, loggedUser, setUser, notificationcss } = useContext(AuthContext);
+  const { instance, loggedUser, setUser, setToken, notificationcss } = useContext(AuthContext);
   const [active, setActive] = useState(null);
+  const [loading, setLoading] = useState("");
   const navigate = useNavigate();
 
-  const handleSignout = () => {
-    // instance.post("auth/signout").then(() => {}).catch((err) => console.log(err)).finally(() => setLoading(false));
-    setUser(null);
-    notifications.show({
-      message: "Successfully logged out!",
-      color: "orange",
-      styles: () => notificationcss,
-    });
+  // eslint-disable-next-line
+  const getImages = async () => {
+    return await instance.get(`/gallery/${loggedUser?.profile?.logo}`);
   };
+
+  const handleSignout = () => {
+    setLoading(true);
+    instance
+      .post("auth/signout")
+      .then(() => {
+        setUser(null);
+        setToken(null);
+        notifications.show({
+          message: "Successfully logged out!",
+          color: "orange",
+          styles: () => notificationcss,
+        });
+      })
+      .catch((err) => console.log(err))
+      .finally(() => setLoading(false));
+  };
+
+  if (loading) return <Spinner />;
 
   const items = data.map((item, index) => (
     <NavLink
@@ -55,16 +71,16 @@ export default function LeftbarOperators({ opened, setOpened }) {
       direction="column"
       sx={{ justifyContent: "space-between" }}
     >
-      <Stack> {items} </Stack>
+      <Stack>{items}</Stack>
+
       <Stack>
-        <UserButton
-          image={loggedUser?.avatar}
-          name={loggedUser?.name}
-          // email={loggedUser?.email}
-          email={user}
+        <ProfileButton
+          image={`${process.env.REACT_APP_SERVER}/gallery/${loggedUser?.profile?.logo}`}
+          name={loggedUser?.profile?.name}
+          email={loggedUser?.email}
           onClick={() => {
             setActive(-1);
-            navigate("profile");
+            navigate("/operators/profile");
             setOpened((o) => !o);
           }}
         />

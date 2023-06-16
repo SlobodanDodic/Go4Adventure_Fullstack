@@ -1,13 +1,13 @@
 import { useContext, useState } from "react";
 import AuthContext from "../../context/AuthContext";
-import { Modal, rem } from "@mantine/core";
+import { Modal, createStyles, getStylesRef } from "@mantine/core";
 import { Carousel, useAnimationOffsetEffect } from "@mantine/carousel";
 import useSWR from "swr";
 import Spinner from "./Spinner";
 
 export default function CarouselModal({ opened, setOpened, editor }) {
   const { user, instance } = useContext(AuthContext);
-
+  const { classes } = useStyles();
   const TRANSITION_DURATION = 200;
   const [embla, setEmbla] = useState(null);
   useAnimationOffsetEffect(embla, TRANSITION_DURATION);
@@ -36,19 +36,28 @@ export default function CarouselModal({ opened, setOpened, editor }) {
   return (
     <Modal
       opened={opened}
-      size={300}
+      maw={300}
       padding={0}
       transitionProps={{ duration: TRANSITION_DURATION }}
       withCloseButton={false}
       onClose={() => setOpened(false)}
     >
-      <Carousel loop getEmblaApi={setEmbla} maw={300}>
+      <Carousel
+        classNames={classes}
+        loop
+        getEmblaApi={setEmbla}
+        withIndicators
+        breakpoints={[
+          { maxWidth: "md", slideSize: "100%" },
+          { maxWidth: "sm", slideSize: "100%", slideGap: 0 },
+        ]}
+      >
         {imgArray?.map((img, i) => (
           <Carousel.Slide key={i}>
             <img
               src={`${process.env.REACT_APP_SERVER}/gallery/${img.path}`}
               alt={img.path}
-              style={{ width: rem(300), height: rem(200), objectFit: "cover" }}
+              className={classes.img}
               onClick={addImage}
             />
           </Carousel.Slide>
@@ -57,3 +66,25 @@ export default function CarouselModal({ opened, setOpened, editor }) {
     </Modal>
   );
 }
+
+const useStyles = createStyles(() => ({
+  controls: {
+    ref: getStylesRef("controls"),
+    transition: "opacity 150ms ease",
+    opacity: 0,
+  },
+
+  root: {
+    "&:hover": {
+      [`& .${getStylesRef("controls")}`]: {
+        opacity: 1,
+      },
+    },
+  },
+
+  img: {
+    width: "100%",
+    maxWidth: "800px",
+    objectFit: "cover",
+  },
+}));

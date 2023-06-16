@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Post, Res, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, FileTypeValidator, Get, MaxFileSizeValidator, Param, ParseFilePipe, Patch, Post, Res, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
@@ -6,9 +6,21 @@ import { GetCurrentUser } from 'src/common/decorators/get-current-user.decorator
 import { Public } from 'src/common/decorators/public.decorator';
 import { RefreshedTokenGuard } from 'src/common/guards/refreshed_token.guard';
 import { UserService } from './user.service';
+import { UserDto } from './dto/user.dto';
+const fs = require('fs');
 
 const defaultConfig = diskStorage({
-  destination: process.env.UPLOAD_DIR,
+  destination: function (req, file, cb) {
+    var dir = process.env.UPLOAD_DIR + "/" + req.params.username + "/logo";
+    try {
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir);
+      }
+    } catch (err) {
+      console.error(err)
+    }
+    cb(null, dir);
+  },
   filename: (req, file, cb) => {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
     const filename = `${uniqueSuffix}${extname(file.originalname)}`;
@@ -25,15 +37,22 @@ export class UserController {
   @UseGuards(RefreshedTokenGuard)
   @Get('me')
   getMyProfile(@GetCurrentUser('refreshToken') refreshToken: string) {
-    return this.usersService.getMyProfile(refreshToken);
+    // return this.usersService.getMyProfile(refreshToken);
+    return console.log(refreshToken)
   }
 
   // Create logged user's profile:
   @UseGuards(RefreshedTokenGuard)
-  @Post('me')
+  @Patch('me/:username')
   @UseInterceptors(FileInterceptor('file', { storage: defaultConfig }))
-  createProfile(@GetCurrentUser('refreshToken') refreshToken: string, @Body('info') info: string, @UploadedFile() file: Express.Multer.File) {
-    return this.usersService.createProfile(refreshToken, info, file);
+  updateProfile(@GetCurrentUser('refreshToken') refreshToken: string, @Body() dto: UserDto, @UploadedFile(
+    new ParseFilePipe({
+      validators: [
+        new FileTypeValidator({ fileType: '.(png|jpeg|jpg)' }),
+        new MaxFileSizeValidator({ maxSize: 1024 * 1024 * 25 }),
+      ],
+    }),) file: Express.Multer.File) {
+    return this.usersService.updateProfile(refreshToken, dto, file);
   }
 
   // Get users by search:

@@ -65,7 +65,7 @@ export function ToursTable() {
             <th>Date</th>
             <th>Category</th>
             <th>Subcategory</th>
-            {role === "admin" ? (
+            {role === "OPERATOR" ? (
               <th style={{ textAlign: "center" }}>View/Edit</th>
             ) : (
               <th style={{ textAlign: "center" }}>View</th>

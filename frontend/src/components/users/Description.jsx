@@ -17,8 +17,13 @@ export function Description({ data }) {
 
   const richText = JSON.parse(data?.editorText);
 
-  const richTextType = richText?.filter((value) => value.type);
-  console.log(richTextType);
+  // const richTextType = richText?.filter((section) => {
+  //   return section.type === "blockquote";
+  // });
+
+  // const richTextType = richText?.filter((value) => value.type === "blockquote");
+  // console.log(richText?.filter((section) => section.type === "blockquote"));
+  // console.log(richTextType[0]?.content[0]?.content[0]?.text);
 
   const editor = useEditor({
     extensions: [
@@ -40,28 +45,44 @@ export function Description({ data }) {
     },
   });
 
+  console.log(richText);
+
   return (
     <Paper withBorder radius="md" m={10} className={classes.card}>
       <Stepper active={3} size="xs" breakpoint="sm">
         <Stepper.Step
-          description={data?.group}
-          label="group"
+          // description="Group"
+          label={data?.group}
           completedIcon={<IconUsersGroup size="1rem" />}
           color="black"
         />
         <Stepper.Step
-          description={data?.category}
-          label="category"
+          // description="Category"
+          label={data?.category}
           color="blue"
           completedIcon={<IconCategory size="1rem" />}
         />
         <Stepper.Step
-          description={data?.subcategory}
-          label="subcategory"
+          // description="Subcategory"
+          label={data?.subcategory}
           color="yellow"
           completedIcon={<IconHttpOptions size="1rem" />}
         />
       </Stepper>
+
+      {/* <Accordion variant="separated" my={16}>
+        {richTextType?.map((section, i) => (
+          <Accordion.Item value={section?.content[0]?.content[0]?.text} key={i}>
+            <Accordion.Control>{section?.content[0]?.content[0]?.text}</Accordion.Control>
+            <Accordion.Panel>
+              <RichTextEditor editor={editor} maw={1200} my={16}>
+                <RichTextEditor.Content />
+              </RichTextEditor>
+            </Accordion.Panel>
+          </Accordion.Item>
+        ))}
+      </Accordion> */}
+
       <RichTextEditor editor={editor} maw={1200} my={16}>
         <RichTextEditor.Content />
       </RichTextEditor>
@@ -86,5 +107,18 @@ const useStyles = createStyles((theme) => ({
       width: rem(6),
       backgroundImage: theme.fn.linearGradient(0, theme.colors.pink[6], theme.colors.orange[6]),
     },
+  },
+
+  control: {
+    fontSize: "0.8rem",
+    fontStyle: "italic",
+  },
+
+  item: {
+    borderRadius: theme.radius.md,
+    marginBottom: theme.spacing.lg,
+    border: `${rem(1)} solid ${theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]}`,
+    fontSize: "0.75rem",
+    textAlign: "justify",
   },
 }));

@@ -10,26 +10,36 @@ const useStyles = createStyles(() => ({
   },
 }));
 
-export function UserButton({ image, name, email, icon, ...others }) {
+export function ProfileButton({ image, name, email, icon, ...others }) {
   const { classes } = useStyles();
 
   return (
     <UnstyledButton className={classes.user} {...others}>
       <Group spacing="xs" pt="md">
         <Indicator inline processing offset={2} size={8} color="dark-blue">
-          <Avatar src={image} variant="outline" radius="0.75rem 0rem" color="dark-blue" />
+          <Avatar
+            src={image}
+            variant="outline"
+            radius="0.75rem 0rem"
+            color="dark-blue"
+            size={64}
+            style={{ border: "2px solid #fdb614" }}
+          />
         </Indicator>
 
         <div style={{ flex: 1 }}>
-          <Flex align="baseline">
-            <Text size="sm" weight={500} mr="md" tt="capitalize">
+          <Flex align="center">
+            <Text size="sm" weight={500} mr="md" tt="capitalize" lh={1.15} my={5}>
               {name}
             </Text>
-            {icon || <IconChevronRight size="0.75rem" stroke={1.5} />}
+            {icon || <IconChevronRight size="1rem" stroke={3} />}
           </Flex>
 
-          <Text color="dimmed" size="xs" lh="1">
-            {email}
+          <Text color="dimmed" size="xs" lh="1" weight={600}>
+            {email.split("@")[0]}@
+          </Text>
+          <Text color="dimmed" size="xs" lh="1" weight={600}>
+            {email.split("@")[1]}
           </Text>
         </div>
       </Group>

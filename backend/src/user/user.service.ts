@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { UserDto } from './dto/user.dto';
 
 @Injectable()
 export class UserService {
@@ -14,7 +15,7 @@ export class UserService {
         email: true,
         username: true,
         profile: {
-          select: { info: true, profileImg: true },
+          select: { info: true, logo: true },
         },
       },
     });
@@ -27,12 +28,12 @@ export class UserService {
   }
 
   // Create logged user's profile:
-  async createProfile(refreshToken: string, info: string, file: any) {
+  async updateProfile(refreshToken: string, dto: UserDto, file: any) {
     return this.prisma.user.update({
       where: { token: refreshToken },
       data: {
         profile: {
-          create: { profileImg: file.path, info: info },
+          create: { logo: file.path, name: dto.name, address: dto.address, phone: dto.phone, info: dto.info },
         },
       },
     });
@@ -53,11 +54,12 @@ export class UserService {
         id: true,
         email: true,
         username: true,
+        role: true,
         posts: {
           include: { author: true, likes: true, comments: { include: { commentAuthor: true } } }
         },
         profile: {
-          select: { info: true, profileImg: true },
+          select: { name: true, address: true, phone: true, info: true, logo: true },
         },
         images: {
           select: { path: true },

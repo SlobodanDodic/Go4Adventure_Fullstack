@@ -14,7 +14,7 @@ import { notifications } from "@mantine/notifications";
 // import { mutate } from "swr";
 
 export default function AddEditTours() {
-  const { instance, user, notificationcss } = useContext(AuthContext);
+  const { instance, user, notificationcss, loggedUser } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
 
   const [group, setGroup] = useState(categoriesData[0]);
@@ -48,7 +48,7 @@ export default function AddEditTours() {
   const handleSubmit = () => {
     setLoading(true);
     instance
-      .post(`post/create`, data)
+      .post(`post/create/${user}`, data)
       .then(() => {
         navigate(-1);
         notifications.show({
@@ -72,7 +72,7 @@ export default function AddEditTours() {
     console.log(uploads);
     const formData = new FormData();
     uploads.map((file) => formData.append("files", file));
-    formData.append("author", "7b684246-a310-4605-954c-5af9003058c5");
+    formData.append("author", loggedUser?.id);
 
     for (var [key, value] of formData.entries()) {
       console.log(key, value);

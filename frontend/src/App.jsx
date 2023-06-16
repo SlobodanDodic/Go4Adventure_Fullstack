@@ -17,7 +17,7 @@ import Finance from "./pages/logged-in/operators/Finance";
 import ProfilePage from "./pages/logged-in/common/ProfilePage";
 import AddEditTours from "./pages/logged-in/operators/AddEditTours";
 import Tour from "./pages/logged-in/operators/Tour";
-import Dashboard from "./pages/logged-in/operators/Dashboard";
+// import Dashboard from "./pages/logged-in/operators/Dashboard";
 import TourUsers from "./pages/logged-in/users/TourUsers";
 import ActivityUsers from "./pages/logged-in/users/ActivityUsers";
 
@@ -37,7 +37,7 @@ export default function App() {
           <Route path="/reset-password/:token" element={<ResetPassword />} />
           {/* Protected for operators */}
           <Route element={<PrivateRoutesOperators />}>
-            <Route path="/operators" element={<Dashboard />} />
+            <Route path="/operators" element={<Home />} />
             <Route path="/operators/tours" element={<Tours />} />
             <Route path="/operators/tours/:title" element={<Tour />} />
             <Route path="/operators/tours/add-edit-tours" element={<AddEditTours />} />
@@ -49,8 +49,8 @@ export default function App() {
           <Route element={<PrivateRoutesUsers />}>
             <Route path="/home" element={<Home />} />
             <Route path="/home/:title" element={<TourUsers />} />
-            <Route path="/activity" element={<ActivityUsers />} />
-            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/home/activity" element={<ActivityUsers />} />
+            <Route path="/home/profile" element={<ProfilePage />} />
           </Route>
         </Routes>
       </BrowserRouter>

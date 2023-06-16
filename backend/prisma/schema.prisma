@@ -8,8 +8,9 @@ datasource db {
 }
 
 enum Role {
-  USER
   ADMIN
+  USER
+  OPERATOR
 }
 
 model User {
@@ -31,12 +32,15 @@ model User {
 }
 
 model Profile {
-  id         String   @unique @default(uuid())
-  createdAt  DateTime @default(now())
-  info       String?
-  profileImg String?
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId     String   @unique
+  id        String   @unique @default(uuid())
+  createdAt DateTime @default(now())
+  name      String?
+  address   String?
+  info      String?
+  phone     String?
+  logo      String?
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String   @unique
 }
 
 model Gallery {

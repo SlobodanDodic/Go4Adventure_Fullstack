@@ -5,9 +5,20 @@ import { PostDto } from './dto/post.dto';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
 import { FileInterceptor } from '@nestjs/platform-express';
+const fs = require('fs');
 
 const defaultConfig = diskStorage({
-  destination: process.env.UPLOAD_DIR,
+  destination: function (req, file, cb) {
+    var dir = process.env.UPLOAD_DIR + "/" + req.params.username + "/cover";
+    try {
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir);
+      }
+    } catch (err) {
+      console.error(err)
+    }
+    cb(null, dir);
+  },
   filename: (req, file, cb) => {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
     const filename = `${uniqueSuffix}${extname(file.originalname)}`;
@@ -30,7 +41,7 @@ export class PostController {
     return this.postService.getPost(id);
   }
 
-  @Post('create')
+  @Post('create/:username')
   @UseInterceptors(FileInterceptor('file', { storage: defaultConfig }))
   createPost(@Body() dto: PostDto, @UploadedFile(
     new ParseFilePipe({

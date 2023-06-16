@@ -9,9 +9,8 @@ import { GalleryDto } from './dto/gallery.dto';
 const fs = require('fs');
 
 const defaultConfig = diskStorage({
-  // destination: process.env.UPLOAD_DIR,
   destination: function (req, file, cb) {
-    var dir = './uploads/' + req.params.username;
+    var dir = process.env.UPLOAD_DIR + "/" + req.params.username;
     try {
       if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir);
@@ -46,11 +45,24 @@ export class GalleryController {
     return this.galleryService.uploads(dto, files);
   }
 
-  // controller without service:
+  // controller without service for images:
   @Get('uploads/:username/:id')
-  getFile(@Param('id') id: string, @Param('username') username: string): StreamableFile {
+  getFiles(@Param('id') id: string, @Param('username') username: string): StreamableFile {
     const image = createReadStream(join(process.cwd(), `${process.env.UPLOAD_DIR}/${username}/${id}`));
-    // console.log(image);
+    return new StreamableFile(image);
+  }
+
+  // controller without service for logo image:
+  @Get('uploads/:username/logo/:id')
+  getLogo(@Param('id') id: string, @Param('username') username: string): StreamableFile {
+    const image = createReadStream(join(process.cwd(), `${process.env.UPLOAD_DIR}/${username}/logo/${id}`));
+    return new StreamableFile(image);
+  }
+
+  // controller without service for cover image:
+  @Get('uploads/:username/cover/:id')
+  getCoverFile(@Param('id') id: string, @Param('username') username: string): StreamableFile {
+    const image = createReadStream(join(process.cwd(), `${process.env.UPLOAD_DIR}/${username}/cover/${id}`));
     return new StreamableFile(image);
   }
 }

@@ -10,7 +10,7 @@ import logo from "../../assets/logo.png";
 import Spinner from "../../components/common/Spinner";
 
 export default function AuthPage(props) {
-  const { instance, notificationcss, setUser, setToken } = useContext(AuthContext);
+  const { instance, notificationcss, setUser, setToken, setRole, role } = useContext(AuthContext);
   const [type, toggle] = useToggle(["login", "register"]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -55,14 +55,15 @@ export default function AuthPage(props) {
       .finally(() => setLoading(false));
   };
 
-  const handleLogin = (values) => {
+  const handleLogin = async (values) => {
     setLoading(true);
-    instance
+    await instance
       .post("auth/login", { username: values.username, password: values.password })
       .then((res) => {
         setUser(res.data?.loggedUser);
         setToken(res.data?.refreshToken);
-        navigate("/home");
+        setRole(res.data?.role);
+        navigate(role === "OPERATOR" ? "/operators" : "/home");
         notifications.show({
           message: "Welcome!",
           color: "orange",

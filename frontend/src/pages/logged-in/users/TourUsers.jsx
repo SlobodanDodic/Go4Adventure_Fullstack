@@ -1,25 +1,29 @@
 import { useContext } from "react";
 import AuthContext from "../../../context/AuthContext";
 import { useLocation, Link } from "react-router-dom";
-import { createStyles, Title, Container, rem, Text, Center } from "@mantine/core";
+import { createStyles, Title, Container, rem, Text, Center, Image } from "@mantine/core";
 import { Dots } from "../../../components/users/TourUsers/Dots";
 import { Description } from "../../../components/users/Description";
-// import { Carousel } from "@mantine/carousel";
+import { Carousel } from "@mantine/carousel";
 import { ContactUs } from "../../../components/users/TourUsers/ContactUs";
 import { BookCard } from "../../../components/users/TourUsers/BookCard";
 
 export default function TourUsers() {
-  const { user } = useContext(AuthContext);
+  const { instance, user, loggedUser } = useContext(AuthContext);
   const { classes } = useStyles();
   const location = useLocation();
   const data = location?.state?.data;
 
   // eslint-disable-next-line
-  // const getImages = async () => {
-  //   return await instance.get(`/gallery/${data?.image.path}`);
-  // };
+  const getImages = async () => {
+    return await instance.get(`/gallery/${data?.image.path}`);
+  };
 
-  // const imgPath = JSON.parse(data?.editorText).filter((item) => item.type === "image");
+  const slides = loggedUser?.images.map((image, i) => (
+    <Carousel.Slide key={i}>
+      <Image src={`${process.env.REACT_APP_SERVER}/gallery/${image.path}`} />
+    </Carousel.Slide>
+  ));
 
   return (
     <Container className={classes.wrapper} size={1400}>
@@ -34,13 +38,9 @@ export default function TourUsers() {
 
       <Description data={data} />
 
-      {/* <Carousel withIndicators loop mt={44}>
-        {data?.images.map((image) => (
-          <Carousel.Slide key={image.id}>
-            <Image src={`${process.env.REACT_APP_SERVER}/gallery/${image.path}`} height={320} />
-          </Carousel.Slide>
-        ))}
-      </Carousel> */}
+      <Carousel withIndicators loop mt={44}>
+        {slides}
+      </Carousel>
 
       {!!user ? (
         <>

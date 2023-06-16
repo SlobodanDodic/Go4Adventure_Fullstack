@@ -32,7 +32,7 @@ export default function Tour() {
         </Button>
       </Flex>
 
-      {role === "admin" ? (
+      {role === "OPERATOR" ? (
         <div>
           <GroupPicker
             categoriesData={categoriesData}

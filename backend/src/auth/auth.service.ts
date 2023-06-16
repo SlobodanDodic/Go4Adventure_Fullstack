@@ -73,7 +73,7 @@ export class AuthService {
     const tokens = await this.getTokens(user.id, user.email);
     await this.updateRtHash(user.id, tokens.refresh_token);
 
-    const userInfo = { refreshToken: tokens.refresh_token, loggedUser: user.username };
+    const userInfo = { refreshToken: tokens.refresh_token, loggedUser: user.username, role: user.role };
 
     return userInfo;
   }

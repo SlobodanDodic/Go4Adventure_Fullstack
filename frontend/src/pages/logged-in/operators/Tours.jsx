@@ -27,7 +27,7 @@ export default function Tours() {
             </ActionIcon>
           }
         />
-        {role === "admin" && (
+        {role === "OPERATOR" && (
           <NavLink
             label="Add Tour"
             description="Add new tour"

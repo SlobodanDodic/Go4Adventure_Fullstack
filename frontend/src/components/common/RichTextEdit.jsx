@@ -36,7 +36,7 @@ export default function RichTextEdit({ data, setRichText }) {
       setContent(editor.getJSON());
       setRichText(content?.content);
     },
-    editable: role === "admin" ? true : false,
+    editable: role === "OPERATOR" ? true : false,
     content,
   });
 
@@ -48,7 +48,7 @@ export default function RichTextEdit({ data, setRichText }) {
 
   return (
     <RichTextEditor editor={editor} maw={1200} my={16}>
-      {role === "admin" ? (
+      {role === "OPERATOR" ? (
         <RichTextEditor.Toolbar sticky stickyOffset={60}>
           <Button onClick={() => setOpened(true)} size="xs" bg="dark-blue">
             Add image

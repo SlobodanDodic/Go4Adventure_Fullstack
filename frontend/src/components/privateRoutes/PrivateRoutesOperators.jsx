@@ -6,10 +6,10 @@ import Topbar from "../navbars/Topbar";
 import LeftbarOperators from "../navbars/LeftbarOperators";
 
 export default function PrivateRoutesOperators() {
-  const { user } = useContext(AuthContext);
+  const { user, role } = useContext(AuthContext);
   const [opened, setOpened] = useState(false);
 
-  return !!user ? (
+  return !!user && role === "OPERATOR" ? (
     <AppShell
       navbarOffsetBreakpoint="sm"
       asideOffsetBreakpoint="sm"

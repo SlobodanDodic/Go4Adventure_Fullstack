@@ -5,12 +5,12 @@ import dayjs from "dayjs";
 import { IconThumbUpFilled } from "@tabler/icons-react";
 
 export function BookCard({ data }) {
-  const { instance } = useContext(AuthContext);
+  const { instance, loggedUser } = useContext(AuthContext);
   const { classes } = useStyles();
 
   // eslint-disable-next-line
   const getImages = async () => {
-    return await instance.get(`/gallery/${data?.coverImg}`);
+    return await instance.get(`/gallery/${loggedUser?.profile?.logo}`);
   };
 
   const dates = JSON.parse(data?.dateRange);
@@ -29,7 +29,7 @@ export function BookCard({ data }) {
       <Card withBorder radius="md" p={0} className={classes.card}>
         <Group noWrap spacing={0}>
           <Avatar
-            src={`${process.env.REACT_APP_SERVER}/gallery/${data?.coverImg}`}
+            src={`${process.env.REACT_APP_SERVER}/gallery/${loggedUser?.profile?.logo}`}
             alt={data?.title}
             radius="xl"
             size="xl"

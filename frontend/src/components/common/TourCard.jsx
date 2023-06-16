@@ -14,25 +14,16 @@ export default function TourCard({ tour }) {
     return await instance.get(`/gallery/${tour?.coverImg}`);
   };
 
-  // const slides = tour?.images.map((image) => (
-  //   <Carousel.Slide key={image.id}>
-  //     <Image src={`${process.env.REACT_APP_SERVER}/gallery/${image.path}`} height={220} />
-  //   </Carousel.Slide>
-  // ));
-
   return (
     <Card my={12} w="100%" maw={400} className={classes.card}>
       <Card.Section>
         <Carousel
-          withIndicators
-          loop
           classNames={{
             root: classes.carousel,
             controls: classes.carouselControls,
             indicator: classes.carouselIndicator,
           }}
         >
-          {/* {slides} */}
           <Image src={`${process.env.REACT_APP_SERVER}/gallery/${tour?.coverImg}`} height={220} />
         </Carousel>
 
@@ -73,7 +64,7 @@ export default function TourCard({ tour }) {
           {tour.subcategory}
         </Text>
         <Text fz="xs" c="dimmed" mt="sm">
-          {tour.length} days tour
+          {tour.location}
         </Text>
       </Group>
 

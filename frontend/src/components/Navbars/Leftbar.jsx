@@ -1,29 +1,35 @@
 import { useState, useContext } from "react";
 import AuthContext from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { UserButton } from "./UserButton";
+import { ProfileButton } from "./ProfileButton";
 import { Button, Flex, NavLink, Navbar, Stack } from "@mantine/core";
 import { IconGauge, IconActivity, IconLogout } from "@tabler/icons-react";
 import { notifications } from "@mantine/notifications";
 
 const data = [
   { icon: IconGauge, label: "Home", description: "Home", path: "/home" },
-  { icon: IconActivity, label: "Activity", description: "Current affairs & happenings", path: "/activity" },
+  { icon: IconActivity, label: "Activity", description: "Current affairs & happenings", path: "/home/activity" },
 ];
 
 export default function Leftbar({ opened, setOpened }) {
-  const { user, loggedUser, setUser, notificationcss } = useContext(AuthContext);
+  const { instance, loggedUser, setUser, setToken, notificationcss } = useContext(AuthContext);
   const [active, setActive] = useState(null);
   const navigate = useNavigate();
 
   const handleSignout = () => {
-    // instance.post("auth/signout").then(() => {}).catch((err) => console.log(err)).finally(() => setLoading(false));
-    setUser(null);
-    notifications.show({
-      message: "Successfully logged out!",
-      color: "orange",
-      styles: () => notificationcss,
-    });
+    instance
+      .post("auth/signout")
+      .then(() => {
+        setUser(null);
+        setToken(null);
+        notifications.show({
+          message: "Successfully logged out!",
+          color: "orange",
+          styles: () => notificationcss,
+        });
+      })
+      .catch((err) => console.log(err));
+    // .finally(() => setLoading(false));
   };
 
   const items = data.map((item, index) => (
@@ -55,14 +61,13 @@ export default function Leftbar({ opened, setOpened }) {
     >
       <Stack> {items} </Stack>
       <Stack>
-        <UserButton
-          image={loggedUser?.avatar}
+        <ProfileButton
+          image={loggedUser?.logo}
           name={loggedUser?.name}
-          // email={loggedUser?.email}
-          email={user}
+          email={loggedUser?.email}
           onClick={() => {
             setActive(-1);
-            navigate("profile");
+            navigate("/home/profile");
             setOpened((o) => !o);
           }}
         />
