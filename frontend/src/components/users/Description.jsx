@@ -1,4 +1,4 @@
-import { createStyles, Paper, Stepper, rem } from "@mantine/core";
+import { createStyles, Paper, Stepper, rem, Accordion } from "@mantine/core";
 import { IconCategory, IconUsersGroup, IconHttpOptions } from "@tabler/icons-react";
 import { RichTextEditor, Link } from "@mantine/tiptap";
 import { useEditor } from "@tiptap/react";
@@ -11,19 +11,31 @@ import Subscript from "@tiptap/extension-subscript";
 import Highlight from "@tiptap/extension-highlight";
 import TextStyle from "@tiptap/extension-text-style";
 import Color from "@tiptap/extension-color";
+import Accordions from "./Accordions";
 
 export function Description({ data }) {
   const { classes } = useStyles();
 
   const richText = JSON.parse(data?.editorText);
 
-  // const richTextType = richText?.filter((section) => {
-  //   return section.type === "blockquote";
-  // });
+  const richTextWithIndex = richText.map((el, i) => {
+    const a = el;
+    el["index"] = i;
+    return a;
+  });
 
-  // const richTextType = richText?.filter((value) => value.type === "blockquote");
-  // console.log(richText?.filter((section) => section.type === "blockquote"));
-  // console.log(richTextType[0]?.content[0]?.content[0]?.text);
+  const allBlockquotes = richTextWithIndex.filter((el) => el.type === "blockquote");
+  const findTypeBlockquote = richTextWithIndex.find((el) => el.type === "blockquote");
+  const findTypeBlockquoteIndex = findTypeBlockquote.index;
+  const slicedContent = richText.slice(0, findTypeBlockquoteIndex);
+
+  const itinerers = [];
+  for (let i = 0; i < allBlockquotes.length; i++) {
+    const start = allBlockquotes[i]?.index;
+    const end = allBlockquotes[i + 1]?.index;
+    const block = richTextWithIndex.filter((el) => el.index >= start && (end === undefined || el.index < end));
+    itinerers.push(block);
+  }
 
   const editor = useEditor({
     extensions: [
@@ -41,11 +53,9 @@ export function Description({ data }) {
     editable: false,
     content: {
       type: "doc",
-      content: richText,
+      content: slicedContent,
     },
   });
-
-  console.log(richText);
 
   return (
     <Paper withBorder radius="md" m={10} className={classes.card}>
@@ -70,22 +80,15 @@ export function Description({ data }) {
         />
       </Stepper>
 
-      {/* <Accordion variant="separated" my={16}>
-        {richTextType?.map((section, i) => (
-          <Accordion.Item value={section?.content[0]?.content[0]?.text} key={i}>
-            <Accordion.Control>{section?.content[0]?.content[0]?.text}</Accordion.Control>
-            <Accordion.Panel>
-              <RichTextEditor editor={editor} maw={1200} my={16}>
-                <RichTextEditor.Content />
-              </RichTextEditor>
-            </Accordion.Panel>
-          </Accordion.Item>
-        ))}
-      </Accordion> */}
-
       <RichTextEditor editor={editor} maw={1200} my={16}>
         <RichTextEditor.Content />
       </RichTextEditor>
+
+      <Accordion variant="separated" my={16}>
+        {itinerers.map((section, i) => (
+          <Accordions section={section} i={i} />
+        ))}
+      </Accordion>
     </Paper>
   );
 }
