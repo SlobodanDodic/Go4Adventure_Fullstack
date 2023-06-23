@@ -45,7 +45,7 @@ export default function Home() {
       />
       <SimpleGrid cols={2} spacing="xl" breakpoints={[{ maxWidth: "36rem", cols: 1, spacing: "md" }]}>
         {filteredTours?.map((tour) => (
-          <TourCard tour={tour} key={tour.id} />
+          <TourCard tour={tour} key={tour?.id} />
         ))}
       </SimpleGrid>
 

@@ -36,7 +36,7 @@ export default function Accordions({ section, i }) {
   });
 
   return (
-    <Accordion.Item value={headline} key={i}>
+    <Accordion.Item value={headline}>
       <Accordion.Control>{headline}</Accordion.Control>
       <Accordion.Panel>
         <RichTextEditor editor={editor} maw={1200} my={16}>

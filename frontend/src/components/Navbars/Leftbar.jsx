@@ -3,34 +3,54 @@ import AuthContext from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { ProfileButton } from "./ProfileButton";
 import { Button, Flex, NavLink, Navbar, Stack } from "@mantine/core";
-import { IconGauge, IconActivity, IconLogout } from "@tabler/icons-react";
+import { IconGauge, IconTrekking, IconActivity, IconCurrencyDollar, IconLogout } from "@tabler/icons-react";
 import { notifications } from "@mantine/notifications";
-
-const data = [
-  { icon: IconGauge, label: "Home", description: "Home", path: "/home" },
-  { icon: IconActivity, label: "Activity", description: "Current affairs & happenings", path: "/home/activity" },
-];
+import Spinner from "../common/Spinner";
 
 export default function Leftbar({ opened, setOpened }) {
-  const { instance, loggedUser, setUser, setToken, notificationcss } = useContext(AuthContext);
+  const { instance, loggedUser, setUser, setToken, role, setRole, notificationcss } = useContext(AuthContext);
   const [active, setActive] = useState(null);
+  const [loading, setLoading] = useState("");
   const navigate = useNavigate();
 
+  // eslint-disable-next-line
+  const getImages = async () => {
+    return await instance.get(`/gallery/${loggedUser?.profile?.logo}`);
+  };
+
+  const userData = [
+    { icon: IconGauge, label: "Home", description: "Home", path: "/home" },
+    { icon: IconActivity, label: "Activity", description: "Current affairs & happenings", path: "/home/activity" },
+  ];
+
+  const operatorsData = [
+    { icon: IconGauge, label: "Dashboard", description: "Tours statistics & calculations", path: "/operators" },
+    { icon: IconTrekking, label: "Tours", description: "Add, edit & delete tours", path: "/operators/tours" },
+    { icon: IconActivity, label: "Activity", description: "Current affairs & happenings", path: "/operators/activity" },
+    { icon: IconCurrencyDollar, label: "Finance", description: "Cash flow & payments", path: "/operators/finance" },
+  ];
+
+  const data = role === "USER" ? userData : operatorsData;
+
   const handleSignout = () => {
+    setLoading(true);
     instance
       .post("auth/signout")
       .then(() => {
         setUser(null);
         setToken(null);
+        setRole(null);
         notifications.show({
           message: "Successfully logged out!",
           color: "orange",
           styles: () => notificationcss,
         });
       })
-      .catch((err) => console.log(err));
-    // .finally(() => setLoading(false));
+      .catch((err) => console.log(err))
+      .finally(() => setLoading(false));
   };
+
+  if (loading) return <Spinner />;
 
   const items = data.map((item, index) => (
     <NavLink
@@ -62,12 +82,12 @@ export default function Leftbar({ opened, setOpened }) {
       <Stack> {items} </Stack>
       <Stack>
         <ProfileButton
-          image={loggedUser?.logo}
-          name={loggedUser?.name}
+          image={`${process.env.REACT_APP_SERVER}/gallery/${loggedUser?.profile?.logo}`}
+          name={loggedUser?.profile?.name}
           email={loggedUser?.email}
           onClick={() => {
             setActive(-1);
-            navigate("/home/profile");
+            navigate(role === "USER" ? "/home/profile" : "/operators/profile");
             setOpened((o) => !o);
           }}
         />

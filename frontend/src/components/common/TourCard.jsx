@@ -2,11 +2,11 @@ import { useContext } from "react";
 import AuthContext from "../../context/AuthContext";
 import { createStyles, Image, Card, Text, Group, getStylesRef, rem, Center, Rating, ActionIcon } from "@mantine/core";
 import { Carousel } from "@mantine/carousel";
-import { IconEye, IconHeartFilled, IconInfoCircleFilled, IconMessageCircle } from "@tabler/icons-react";
+import { IconEye, IconHeart, IconInfoCircleFilled, IconMessageCircle } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
 
 export default function TourCard({ tour }) {
-  const { instance } = useContext(AuthContext);
+  const { instance, role, user } = useContext(AuthContext);
   const { classes, theme } = useStyles();
 
   // eslint-disable-next-line
@@ -34,13 +34,14 @@ export default function TourCard({ tour }) {
               <Center>
                 <IconEye size="1rem" stroke={1.5} color={theme.colors.dark[2]} />
                 <Text fw="bold" fz="xs" c="dimmed" className={classes.bodyText}>
-                  {tour.views}
+                  {/* {tour.views} */}
+                  11
                 </Text>
               </Center>
               <Center>
                 <IconMessageCircle size="1rem" stroke={1.5} color={theme.colors.dark[2]} />
                 <Text fw="bold" fz="xs" c="dimmed" className={classes.bodyText}>
-                  {tour.comments}
+                  {/* {tour.comments} */}7
                 </Text>
               </Center>
             </Group>
@@ -69,7 +70,18 @@ export default function TourCard({ tour }) {
       </Group>
 
       <Group position="apart" mt="md">
-        <Link radius="md" to={`/${tour.title}`} state={{ data: tour }} className={classes.linkButton}>
+        <Link
+          radius="md"
+          to={
+            !!user && role === "USER"
+              ? `/home/tours/${tour.title}`
+              : !!user && role === "OPERATOR"
+              ? `operators/tours/${tour.title}`
+              : `/${tour.title}`
+          }
+          state={{ data: tour }}
+          className={classes.linkButton}
+        >
           <Center>
             <IconInfoCircleFilled size="1.25rem" />
             <Text ml={5}>More</Text>
@@ -77,8 +89,8 @@ export default function TourCard({ tour }) {
         </Link>
 
         <ActionIcon color="red" size="xl" variant="transparent">
-          {/* <IconHeartHandshake size="1.75rem" /> */}
-          <IconHeartFilled size="1.75rem" />
+          <IconHeart size="1.5rem" />
+          {/* <IconHeartFilled size="1.5rem" /> */}
         </ActionIcon>
 
         <Text fz="md" span fw={800} mr={10} className={classes.price}>

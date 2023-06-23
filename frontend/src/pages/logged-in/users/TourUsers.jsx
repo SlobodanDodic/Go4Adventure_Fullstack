@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import AuthContext from "../../../context/AuthContext";
-import { useLocation, Link } from "react-router-dom";
-import { createStyles, Title, Container, rem, Text, Center, Image } from "@mantine/core";
+import { useLocation, Link, useNavigate } from "react-router-dom";
+import { createStyles, Title, Container, rem, Text, Center, Image, Button, Flex } from "@mantine/core";
 import { Dots } from "../../../components/users/TourUsers/Dots";
 import { Description } from "../../../components/users/Description";
 import { Carousel } from "@mantine/carousel";
@@ -12,6 +12,7 @@ export default function TourUsers() {
   const { instance, user, loggedUser } = useContext(AuthContext);
   const { classes } = useStyles();
   const location = useLocation();
+  const navigate = useNavigate();
   const data = location?.state?.data;
 
   // eslint-disable-next-line
@@ -57,6 +58,12 @@ export default function TourUsers() {
           </Link>
         </Center>
       )}
+
+      <Flex w="100%" mt={44} justify="center" align="center">
+        <Button onClick={() => navigate(-1)} size="sm" bg="dark-blue">
+          Go back
+        </Button>
+      </Flex>
     </Container>
   );
 }

@@ -60,24 +60,9 @@ export function Description({ data }) {
   return (
     <Paper withBorder radius="md" m={10} className={classes.card}>
       <Stepper active={3} size="xs" breakpoint="sm">
-        <Stepper.Step
-          // description="Group"
-          label={data?.group}
-          completedIcon={<IconUsersGroup size="1rem" />}
-          color="black"
-        />
-        <Stepper.Step
-          // description="Category"
-          label={data?.category}
-          color="blue"
-          completedIcon={<IconCategory size="1rem" />}
-        />
-        <Stepper.Step
-          // description="Subcategory"
-          label={data?.subcategory}
-          color="yellow"
-          completedIcon={<IconHttpOptions size="1rem" />}
-        />
+        <Stepper.Step label={data?.group} completedIcon={<IconUsersGroup size="1rem" />} color="black" />
+        <Stepper.Step label={data?.category} color="blue" completedIcon={<IconCategory size="1rem" />} />
+        <Stepper.Step label={data?.subcategory} color="yellow" completedIcon={<IconHttpOptions size="1rem" />} />
       </Stepper>
 
       <RichTextEditor editor={editor} maw={1200} my={16}>
@@ -86,7 +71,7 @@ export function Description({ data }) {
 
       <Accordion variant="separated" my={16}>
         {itinerers.map((section, i) => (
-          <Accordions section={section} i={i} />
+          <Accordions section={section} key={i} />
         ))}
       </Accordion>
     </Paper>

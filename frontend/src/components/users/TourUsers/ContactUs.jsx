@@ -26,9 +26,13 @@ export function ContactUs() {
               <TextInput label="Your email" placeholder="hello@mantine.dev" required />
             </SimpleGrid>
 
-            <TextInput mt="md" label="Subject" placeholder="Subject" required />
-
-            <Textarea mt="md" label="Your message" placeholder="Please include all relevant information" minRows={3} />
+            <Textarea
+              mt="md"
+              label="Your message"
+              placeholder="Please include all relevant information"
+              minRows={3}
+              required
+            />
 
             <Group position="right" mt="md">
               <Button type="submit" className={classes.control}>
