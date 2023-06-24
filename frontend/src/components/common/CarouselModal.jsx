@@ -2,19 +2,15 @@ import { useContext, useState } from "react";
 import AuthContext from "../../context/AuthContext";
 import { Modal, createStyles, getStylesRef } from "@mantine/core";
 import { Carousel, useAnimationOffsetEffect } from "@mantine/carousel";
-import useSWR from "swr";
-import Spinner from "./Spinner";
 
 export default function CarouselModal({ opened, setOpened, editor }) {
-  const { user, instance } = useContext(AuthContext);
+  const { instance, loggedUser } = useContext(AuthContext);
   const { classes } = useStyles();
   const TRANSITION_DURATION = 200;
   const [embla, setEmbla] = useState(null);
   useAnimationOffsetEffect(embla, TRANSITION_DURATION);
 
-  const { data, error, isLoading } = useSWR(`/user/profile/${user}`, instance.get);
-
-  const imgArray = data?.data?.images;
+  const imgArray = loggedUser?.images;
 
   // eslint-disable-next-line
   const getImages = async () => {
@@ -29,9 +25,6 @@ export default function CarouselModal({ opened, setOpened, editor }) {
     }
     setOpened(false);
   };
-
-  if (isLoading) return <Spinner />;
-  if (error) return <h1>{error}</h1>;
 
   return (
     <Modal

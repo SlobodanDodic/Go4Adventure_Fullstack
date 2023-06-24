@@ -26,7 +26,7 @@ export function Description({ data }) {
 
   const allBlockquotes = richTextWithIndex.filter((el) => el.type === "blockquote");
   const findTypeBlockquote = richTextWithIndex.find((el) => el.type === "blockquote");
-  const findTypeBlockquoteIndex = findTypeBlockquote.index;
+  const findTypeBlockquoteIndex = findTypeBlockquote?.index;
   const slicedContent = richText.slice(0, findTypeBlockquoteIndex);
 
   const itinerers = [];

@@ -14,10 +14,17 @@ export class UserService {
         id: true,
         email: true,
         username: true,
-        profile: {
-          select: { info: true, logo: true },
+        role: true,
+        posts: {
+          include: { author: true, likes: true, comments: { include: { commentAuthor: true } } }
         },
-      },
+        profile: {
+          select: { name: true, address: true, phone: true, info: true, logo: true },
+        },
+        images: {
+          select: { path: true },
+        }
+      }
     });
 
     if (!foundUser) {
@@ -29,7 +36,7 @@ export class UserService {
 
   // Create logged user's profile:
   async updateProfile(refreshToken: string, dto: UserDto, file: any) {
-    return this.prisma.user.update({
+    return await this.prisma.user.update({
       where: { token: refreshToken },
       data: {
         profile: {

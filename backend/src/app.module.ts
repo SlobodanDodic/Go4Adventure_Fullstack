@@ -9,6 +9,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { AssignedTokenGuard } from './common/guards/assigned_token.guard';
 import { GalleryModule } from './gallery/gallery.module';
 import { UserModule } from './user/user.module';
+import { LikeModule } from './like/like.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { UserModule } from './user/user.module';
     PostModule,
     GalleryModule,
     UserModule,
+    LikeModule,
   ],
   providers: [
     {

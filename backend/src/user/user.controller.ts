@@ -37,8 +37,7 @@ export class UserController {
   @UseGuards(RefreshedTokenGuard)
   @Get('me')
   getMyProfile(@GetCurrentUser('refreshToken') refreshToken: string) {
-    // return this.usersService.getMyProfile(refreshToken);
-    return console.log(refreshToken)
+    return this.usersService.getMyProfile(refreshToken);
   }
 
   // Create logged user's profile:

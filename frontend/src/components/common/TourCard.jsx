@@ -2,16 +2,43 @@ import { useContext } from "react";
 import AuthContext from "../../context/AuthContext";
 import { createStyles, Image, Card, Text, Group, getStylesRef, rem, Center, Rating, ActionIcon } from "@mantine/core";
 import { Carousel } from "@mantine/carousel";
-import { IconEye, IconHeart, IconInfoCircleFilled, IconMessageCircle } from "@tabler/icons-react";
+import { IconEye, IconHeart, IconHeartFilled, IconInfoCircleFilled, IconMessageCircle } from "@tabler/icons-react";
+import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 
 export default function TourCard({ tour }) {
-  const { instance, role, user } = useContext(AuthContext);
+  const { instance, role, user, loggedUser } = useContext(AuthContext);
+  const queryClient = useQueryClient();
   const { classes, theme } = useStyles();
 
   // eslint-disable-next-line
   const getImages = async () => {
     return await instance.get(`/gallery/${tour?.coverImg}`);
+  };
+
+  const userLikedPost = tour?.likes?.some((element) => element.userId === loggedUser.id);
+  const likeId = tour?.likes?.find(({ userId }) => userId === loggedUser.id);
+
+  const createLike = async () => {
+    return await instance.post(`like`, { postId: tour.id, userId: loggedUser.id });
+  };
+  const createLikeMutation = useMutation(createLike, {
+    onSuccess: () => queryClient.invalidateQueries("getPosts"),
+  });
+
+  const removeLike = async () => {
+    return await instance.delete(`like/${likeId?.id}`);
+  };
+  const removeLikeMutation = useMutation(removeLike, {
+    onSuccess: () => queryClient.invalidateQueries("getPosts"),
+  });
+
+  const handleLike = () => {
+    if (!userLikedPost) {
+      createLikeMutation.mutate();
+    } else {
+      removeLikeMutation.mutate();
+    }
   };
 
   return (
@@ -88,9 +115,8 @@ export default function TourCard({ tour }) {
           </Center>
         </Link>
 
-        <ActionIcon color="red" size="xl" variant="transparent">
-          <IconHeart size="1.5rem" />
-          {/* <IconHeartFilled size="1.5rem" /> */}
+        <ActionIcon color="red" size="xl" variant="transparent" onClick={handleLike}>
+          {!userLikedPost ? <IconHeart size="1.5rem" /> : <IconHeartFilled size="1.5rem" />}
         </ActionIcon>
 
         <Text fz="md" span fw={800} mr={10} className={classes.price}>

@@ -4,15 +4,19 @@ import { Flex, SimpleGrid, ActionIcon, TextInput } from "@mantine/core";
 import TourCard from "../../../components/common/TourCard";
 import { IconSearch, IconArrowRight, IconLogin } from "@tabler/icons-react";
 import Spinner from "../../../components/common/Spinner";
-import useSWR from "swr";
+import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 
 export default function Home() {
   const { instance } = useContext(AuthContext);
-  const { data, error, isLoading } = useSWR("/post", instance.get);
   const [search, setSearch] = useState("");
 
-  const toursData = data?.data;
+  const getPosts = async () => {
+    const data = await instance.get(`/post`);
+    return data.data;
+  };
+
+  const { data: toursData, isLoading, isError, error } = useQuery(["getPosts"], () => getPosts());
 
   const filteredTours = toursData?.filter((tour) => {
     return (
@@ -22,7 +26,7 @@ export default function Home() {
   });
 
   if (isLoading) return <Spinner />;
-  if (error) return <h1>{error}</h1>;
+  if (isError) return <h1>{error}</h1>;
 
   return (
     <Flex justify="center" align="center" direction="column" my={22}>
@@ -45,7 +49,7 @@ export default function Home() {
       />
       <SimpleGrid cols={2} spacing="xl" breakpoints={[{ maxWidth: "36rem", cols: 1, spacing: "md" }]}>
         {filteredTours?.map((tour) => (
-          <TourCard tour={tour} key={tour?.id} />
+          <TourCard tour={tour} key={tour.id} />
         ))}
       </SimpleGrid>
 

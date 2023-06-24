@@ -10,8 +10,6 @@ import RichTextEdit from "../../../components/common/RichTextEdit";
 import { IconAlignLeft, IconUpload } from "@tabler/icons-react";
 import Spinner from "../../../components/common/Spinner";
 import { notifications } from "@mantine/notifications";
-// import useSWR from "swr";
-// import { mutate } from "swr";
 
 export default function AddEditTours() {
   const { instance, user, notificationcss, loggedUser } = useContext(AuthContext);
@@ -60,12 +58,6 @@ export default function AddEditTours() {
       .catch((err) => console.log(err))
       .finally(() => setLoading(false));
   };
-
-  // const { data, error, isLoading } = useSWR("/post/create", instance.post);
-  // const getCartMutation = () => ({
-  //   addToCart: (uploads) => mutate("/gallery/uploads", () => instance.post("/gallery/uploads", { file: uploads })),
-  // });
-  // const { addToCart } = getCartMutation();
 
   const handleUpload = (e) => {
     e.preventDefault();

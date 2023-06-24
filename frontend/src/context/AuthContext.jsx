@@ -2,7 +2,7 @@ import { createContext } from "react";
 import useLocalStorage from "../hooks/useLocalStorage";
 import { useMediaQuery } from "@mantine/hooks";
 import axios from "axios";
-import useSWR from "swr";
+import { useQuery } from "@tanstack/react-query";
 import Spinner from "../components/common/Spinner";
 
 const AuthContext = createContext({});
@@ -29,12 +29,19 @@ export const AuthProvider = ({ children }) => {
     },
   });
 
-  const { data, error, isLoading } = useSWR(`/user/profile/${user}`, instance.get);
+  const getLoogedUser = async () => {
+    if (!!user) {
+      const data = await instance.get(`/user/me`);
+      return data.data;
+    } else {
+      return null;
+    }
+  };
 
-  const loggedUser = data?.data;
+  const { data: loggedUser, isLoading, isError, error } = useQuery(["getLoogedUser"], () => getLoogedUser());
 
   if (isLoading) return <Spinner />;
-  if (error) return console.log(error);
+  if (isError) return console.log(error);
 
   return (
     <AuthContext.Provider

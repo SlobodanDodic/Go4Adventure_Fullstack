@@ -10,6 +10,7 @@ export class PostService {
     return await this.prisma.post.findMany({
       include: {
         author: { select: { username: true, email: true } },
+        likes: { select: { id: true, userId: true, postId: true } },
       },
     });
   }
@@ -26,7 +27,7 @@ export class PostService {
         price: true,
         editorText: true,
         location: true,
-        likes: true,
+        likes: { select: { id: true, userId: true, postId: true } },
         dateRange: true,
         comments: true,
       }
