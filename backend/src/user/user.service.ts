@@ -23,6 +23,9 @@ export class UserService {
         },
         images: {
           select: { path: true },
+        },
+        likes: {
+          select: { id: true },
         }
       }
     });

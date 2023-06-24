@@ -2,14 +2,14 @@ import { useContext } from "react";
 import AuthContext from "../../../context/AuthContext";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import { createStyles, Title, Container, rem, Text, Center, Image, Button, Flex } from "@mantine/core";
+import { Carousel } from "@mantine/carousel";
 import { Dots } from "../../../components/users/TourUsers/Dots";
 import { Description } from "../../../components/users/Description";
-import { Carousel } from "@mantine/carousel";
 import { ContactUs } from "../../../components/users/TourUsers/ContactUs";
 import { BookCard } from "../../../components/users/TourUsers/BookCard";
 
 export default function TourUsers() {
-  const { instance, user, loggedUser } = useContext(AuthContext);
+  const { instance, user } = useContext(AuthContext);
   const { classes } = useStyles();
   const location = useLocation();
   const navigate = useNavigate();
@@ -20,8 +20,8 @@ export default function TourUsers() {
     return await instance.get(`/gallery/${data?.image.path}`);
   };
 
-  const slides = loggedUser?.images.map((image, i) => (
-    <Carousel.Slide key={i}>
+  const slides = data?.author?.images?.map((image) => (
+    <Carousel.Slide key={image.id}>
       <Image src={`${process.env.REACT_APP_SERVER}/gallery/${image.path}`} />
     </Carousel.Slide>
   ));
@@ -112,13 +112,6 @@ const useStyles = createStyles((theme) => ({
     backgroundColor: "#0b4668",
     color: "white",
     borderRadius: "5px",
-    marginTop: "20px",
+    marginTop: "40px",
   },
-  // description: {
-  //   textAlign: "center",
-  //   [theme.fn.smallerThan("xs")]: {
-  //     textAlign: "justify",
-  //     fontSize: theme.fontSizes.sm,
-  //   },
-  // },
 }));

@@ -53,4 +53,9 @@ export class PostController {
     return this.postService.createPost(dto, file);
   }
 
+  @Get('likedPosts/:userId')
+  getLikedPosts(@Param('userId') userId: string) {
+    return this.postService.getLikedPosts(userId);
+  }
+
 }

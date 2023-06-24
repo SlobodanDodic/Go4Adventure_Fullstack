@@ -44,7 +44,7 @@ export default function ResetPassword() {
   if (loading) return <Spinner />;
 
   return (
-    <Flex size={460} h="100vh" mx="auto" justify="center" align="center" direction="column">
+    <Flex size={460} h="90vh" mx="auto" justify="center" align="center" direction="column">
       <Paper radius="md" p="xl">
         <Image maw={240} mx="auto" radius="md" pb={30} src={logo} alt="logo" />
         <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>

@@ -19,8 +19,13 @@ export default function Leftbar({ opened, setOpened }) {
   };
 
   const userData = [
-    { icon: IconGauge, label: "Home", description: "Home", path: "/home" },
-    { icon: IconActivity, label: "Activity", description: "Current affairs & happenings", path: "/home/activity" },
+    { icon: IconGauge, label: "Home", description: "All tours", path: "/home" },
+    {
+      icon: IconActivity,
+      label: "Liked Tours",
+      description: "Favorite tours and trip plans",
+      path: "/home/liked_tours",
+    },
   ];
 
   const operatorsData = [

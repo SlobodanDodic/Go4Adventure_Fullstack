@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { Public } from 'src/common/decorators/public.decorator';
 import { LikeDto } from './dto/like.dto';
 import { LikeService } from './like.service';

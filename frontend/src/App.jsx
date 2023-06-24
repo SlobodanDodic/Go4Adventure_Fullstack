@@ -1,3 +1,5 @@
+import { useContext } from "react";
+import AuthContext from "./context/AuthContext";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { MantineProvider } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
@@ -18,14 +20,18 @@ import ProfilePage from "./pages/logged-in/common/ProfilePage";
 import AddEditTours from "./pages/logged-in/operators/AddEditTours";
 import Tour from "./pages/logged-in/operators/Tour";
 import TourUsers from "./pages/logged-in/users/TourUsers";
-import ActivityUsers from "./pages/logged-in/users/ActivityUsers";
+import LikedTours from "./pages/logged-in/users/LikedTours";
+import Topbar from "./components/navbars/Topbar";
 // import Dashboard from "./pages/logged-in/operators/Dashboard";
 
 export default function App() {
+  const { user } = useContext(AuthContext);
+
   return (
     <MantineProvider withGlobalStyles withNormalizeCSS theme={theme}>
       <Notifications position="top-right" autoClose={3000} containerWidth="20rem" zIndex={2077} />
       <BrowserRouter>
+        {user === null ? <Topbar /> : null}
         <Routes>
           {/* Publicly available */}
           <Route path="/" element={<Home />} />
@@ -49,7 +55,7 @@ export default function App() {
           <Route element={<PrivateRoutesUsers />}>
             <Route path="/home" element={<Home />} />
             <Route path="/home/tours/:title" element={<TourUsers />} />
-            <Route path="/home/activity" element={<ActivityUsers />} />
+            <Route path="/home/liked_tours" element={<LikedTours />} />
             <Route path="/home/profile" element={<ProfilePage />} />
           </Route>
         </Routes>

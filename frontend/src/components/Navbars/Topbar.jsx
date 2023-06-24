@@ -1,12 +1,14 @@
-import { Burger, Flex, Header, Image, MediaQuery, Text, useMantineTheme } from "@mantine/core";
-import { useFullscreen } from "@mantine/hooks";
 import { useContext } from "react";
 import AuthContext from "../../context/AuthContext";
+import { Link } from "react-router-dom";
+import { Burger, Flex, Header, Image, MediaQuery, ActionIcon, Text, useMantineTheme } from "@mantine/core";
+import { IconDirectionSign } from "@tabler/icons-react";
+import { useFullscreen } from "@mantine/hooks";
 import summit from "../../assets/summit.png";
 
 export default function Topbar({ opened, setOpened }) {
   const { toggle, fullscreen } = useFullscreen();
-  const { smallScreen } = useContext(AuthContext);
+  const { smallScreen, user } = useContext(AuthContext);
   const theme = useMantineTheme();
 
   return (
@@ -21,17 +23,27 @@ export default function Topbar({ opened, setOpened }) {
             <span style={{ color: "#fdb614" }}>Adventure</span>
           </Text>
 
-          <Flex onClick={toggle} direction="column" align="flex-end" mr="md">
-            <Image maw={48} src={summit} alt="summit" pt="5px" />
-            <Text
-              display={smallScreen ? "none" : "inline"}
-              size="xs"
-              fz="0.65rem"
-              color={fullscreen ? "orange" : "gray.1"}
-            >
-              {fullscreen ? "Exit Fullscreen" : "Fullscreen"}
-            </Text>
-          </Flex>
+          {!user ? (
+            <Flex direction="column" align="flex-end" mr="md">
+              <ActionIcon>
+                <Link to={`/auth`} style={{ textDecoration: "none", color: "#fdb500" }}>
+                  <IconDirectionSign size="1.5rem" />
+                </Link>
+              </ActionIcon>
+            </Flex>
+          ) : (
+            <Flex onClick={toggle} direction="column" align="flex-end" mr="md">
+              <Image maw={48} src={summit} alt="summit" pt="5px" />
+              <Text
+                display={smallScreen ? "none" : "inline"}
+                size="xs"
+                fz="0.65rem"
+                color={fullscreen ? "orange" : "gray.1"}
+              >
+                {fullscreen ? "Exit Fullscreen" : "Fullscreen"}
+              </Text>
+            </Flex>
+          )}
         </Flex>
       </div>
     </Header>

@@ -32,7 +32,7 @@ export default function Activation() {
   if (loading) return <Spinner />;
 
   return (
-    <Flex size={460} h="100vh" mx="auto" justify="center" align="center" direction="column">
+    <Flex size={460} h="90vh" mx="auto" justify="center" align="center" direction="column">
       <Title fw="bolder" fz="2xl" c="dark-blue" align="center">
         Activation Page
       </Title>

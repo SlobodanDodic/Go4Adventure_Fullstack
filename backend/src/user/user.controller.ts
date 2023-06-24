@@ -1,4 +1,4 @@
-import { Body, Controller, FileTypeValidator, Get, MaxFileSizeValidator, Param, ParseFilePipe, Patch, Post, Res, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, FileTypeValidator, Get, MaxFileSizeValidator, Param, ParseFilePipe, Patch, Res, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
@@ -35,7 +35,7 @@ export class UserController {
 
   // Get logged user's profile:
   @UseGuards(RefreshedTokenGuard)
-  @Get('me')
+  @Get('me/:username')
   getMyProfile(@GetCurrentUser('refreshToken') refreshToken: string) {
     return this.usersService.getMyProfile(refreshToken);
   }

@@ -9,7 +9,13 @@ export class PostService {
   async getPosts() {
     return await this.prisma.post.findMany({
       include: {
-        author: { select: { username: true, email: true } },
+        author: {
+          select: {
+            username: true,
+            email: true,
+            images: { select: { id: true, path: true } }
+          }
+        },
         likes: { select: { id: true, userId: true, postId: true } },
       },
     });
@@ -51,6 +57,27 @@ export class PostService {
     });
   }
 
+
+  async getLikedPosts(userId: string) {
+    const likesArray = await this.likesArray(userId);
+    const ids = likesArray?.map((el) => el.postId);
+
+    return await this.prisma.post.findMany({
+      where: { id: { in: ids } },
+      include: {
+        author: { select: { username: true, email: true } },
+        likes: { select: { id: true, userId: true, postId: true } },
+      },
+      orderBy: { location: "asc" }
+    });
+  }
+
+  // helper functions:
+  async likesArray(userId: string) {
+    return await this.prisma.like.findMany({
+      where: { userId: { in: userId } },
+    });
+  }
 
 }
 

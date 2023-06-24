@@ -1,8 +1,7 @@
 import { useContext } from "react";
 import AuthContext from "../../context/AuthContext";
-import { createStyles, Image, Card, Text, Group, getStylesRef, rem, Center, Rating, ActionIcon } from "@mantine/core";
-import { Carousel } from "@mantine/carousel";
-import { IconEye, IconHeart, IconHeartFilled, IconInfoCircleFilled, IconMessageCircle } from "@tabler/icons-react";
+import { createStyles, Image, Card, Text, Group, Center, Rating, ActionIcon } from "@mantine/core";
+import { IconHeart, IconHeartFilled, IconInfoCircleFilled, IconMessageCircle } from "@tabler/icons-react";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 
@@ -16,11 +15,11 @@ export default function TourCard({ tour }) {
     return await instance.get(`/gallery/${tour?.coverImg}`);
   };
 
-  const userLikedPost = tour?.likes?.some((element) => element.userId === loggedUser.id);
-  const likeId = tour?.likes?.find(({ userId }) => userId === loggedUser.id);
+  const userLikedPost = tour?.likes?.some((element) => element.userId === loggedUser?.id);
+  const likeId = tour?.likes?.find(({ userId }) => userId === loggedUser?.id);
 
   const createLike = async () => {
-    return await instance.post(`like`, { postId: tour.id, userId: loggedUser.id });
+    return await instance.post(`like`, { postId: tour.id, userId: loggedUser?.id });
   };
   const createLikeMutation = useMutation(createLike, {
     onSuccess: () => queryClient.invalidateQueries("getPosts"),
@@ -44,31 +43,22 @@ export default function TourCard({ tour }) {
   return (
     <Card my={12} w="100%" maw={400} className={classes.card}>
       <Card.Section>
-        <Carousel
-          classNames={{
-            root: classes.carousel,
-            controls: classes.carouselControls,
-            indicator: classes.carouselIndicator,
-          }}
-        >
-          <Image src={`${process.env.REACT_APP_SERVER}/gallery/${tour?.coverImg}`} height={220} />
-        </Carousel>
+        <Image src={`${process.env.REACT_APP_SERVER}/gallery/${tour?.coverImg}`} height={220} />
 
         <div className={classes.content}>
           <Group position="apart" spacing="xs">
             <Text className={classes.author}>{tour.category}</Text>
             <Group spacing="lg">
               <Center>
-                <IconEye size="1rem" stroke={1.5} color={theme.colors.dark[2]} />
+                <IconHeart size="1rem" stroke={1.5} color={theme.colors.dark[2]} />
                 <Text fw="bold" fz="xs" c="dimmed" className={classes.bodyText}>
-                  {/* {tour.views} */}
-                  11
+                  {tour?.likes?.length ? tour?.likes?.length : 0}
                 </Text>
               </Center>
               <Center>
                 <IconMessageCircle size="1rem" stroke={1.5} color={theme.colors.dark[2]} />
                 <Text fw="bold" fz="xs" c="dimmed" className={classes.bodyText}>
-                  {/* {tour.comments} */}7
+                  {tour?.comments?.length ? tour?.comments?.length : 0}
                 </Text>
               </Center>
             </Group>
@@ -115,9 +105,11 @@ export default function TourCard({ tour }) {
           </Center>
         </Link>
 
-        <ActionIcon color="red" size="xl" variant="transparent" onClick={handleLike}>
-          {!userLikedPost ? <IconHeart size="1.5rem" /> : <IconHeartFilled size="1.5rem" />}
-        </ActionIcon>
+        {!!user ? (
+          <ActionIcon color="red" size="xl" variant="transparent" onClick={handleLike}>
+            {!userLikedPost ? <IconHeart size="1.5rem" /> : <IconHeartFilled size="1.5rem" />}
+          </ActionIcon>
+        ) : null}
 
         <Text fz="md" span fw={800} mr={10} className={classes.price}>
           {tour.price}€
@@ -133,28 +125,6 @@ const useStyles = createStyles((theme) => ({
     border: "1px solid #d3d3d329",
     backgroundColor: "#d3d3d329",
     borderRadius: "0 0 3rem",
-  },
-  carousel: {
-    "&:hover": {
-      [`& .${getStylesRef("carouselControls")}`]: {
-        opacity: 1,
-      },
-    },
-  },
-  carouselControls: {
-    ref: getStylesRef("carouselControls"),
-    transition: "opacity 150ms ease",
-    opacity: 0.15,
-    zIndex: 2,
-  },
-  carouselIndicator: {
-    width: rem(12),
-    height: rem(4),
-    transition: "width 250ms ease",
-    backgroundColor: "white",
-    "&[data-active]": {
-      width: rem(40),
-    },
   },
   overlay: {
     position: "absolute",

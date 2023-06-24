@@ -1,15 +1,6 @@
 import { UnstyledButton, Group, Avatar, Text, createStyles, Flex, Indicator } from "@mantine/core";
 import { IconChevronRight } from "@tabler/icons-react";
 
-const useStyles = createStyles(() => ({
-  user: {
-    display: "block",
-    width: "100%",
-    paddingLeft: "1rem",
-    overflow: "hidden",
-  },
-}));
-
 export function ProfileButton({ image, name, email, icon, ...others }) {
   const { classes } = useStyles();
 
@@ -36,13 +27,22 @@ export function ProfileButton({ image, name, email, icon, ...others }) {
           </Flex>
 
           <Text color="dimmed" size="xs" lh="1" weight={600}>
-            {email.split("@")[0]}@
+            {email?.split("@")[0]}@
           </Text>
           <Text color="dimmed" size="xs" lh="1" weight={600}>
-            {email.split("@")[1]}
+            {email?.split("@")[1]}
           </Text>
         </div>
       </Group>
     </UnstyledButton>
   );
 }
+
+const useStyles = createStyles(() => ({
+  user: {
+    display: "block",
+    width: "100%",
+    paddingLeft: "1rem",
+    overflow: "hidden",
+  },
+}));

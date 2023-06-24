@@ -77,7 +77,7 @@ export default function AuthPage(props) {
   if (loading) return <Spinner />;
 
   return (
-    <Flex h="100vh" justify="center" align="center">
+    <Flex h="90vh" justify="center" align="center">
       <Paper radius="md" p="xl" {...props}>
         <Image maw={240} mx="auto" radius="md" pb={30} src={logo} alt="logo" />
 

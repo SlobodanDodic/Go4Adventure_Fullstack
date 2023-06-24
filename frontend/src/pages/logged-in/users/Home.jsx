@@ -2,10 +2,9 @@ import { useContext, useState } from "react";
 import AuthContext from "../../../context/AuthContext";
 import { Flex, SimpleGrid, ActionIcon, TextInput } from "@mantine/core";
 import TourCard from "../../../components/common/TourCard";
-import { IconSearch, IconArrowRight, IconLogin } from "@tabler/icons-react";
+import { IconSearch, IconArrowRight } from "@tabler/icons-react";
 import Spinner from "../../../components/common/Spinner";
 import { useQuery } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
 
 export default function Home() {
   const { instance } = useContext(AuthContext);
@@ -52,24 +51,6 @@ export default function Home() {
           <TourCard tour={tour} key={tour.id} />
         ))}
       </SimpleGrid>
-
-      <ActionIcon
-        style={{
-          position: "absolute",
-          top: "1.5rem",
-          right: "1.5rem",
-        }}
-      >
-        <Link
-          to={`/auth`}
-          style={{
-            textDecoration: "none",
-            color: "#0b4668",
-          }}
-        >
-          <IconLogin size="1.75rem" />
-        </Link>
-      </ActionIcon>
     </Flex>
   );
 }

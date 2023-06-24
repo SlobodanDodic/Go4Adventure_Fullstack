@@ -11,6 +11,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useLocalStorage("user", null);
   const [token, setToken] = useLocalStorage("token", null);
   const [role, setRole] = useLocalStorage("role", null);
+
   const smallScreen = useMediaQuery("(max-width: 350px)");
 
   const notificationcss = {
@@ -30,15 +31,15 @@ export const AuthProvider = ({ children }) => {
   });
 
   const getLoogedUser = async () => {
-    if (!!user) {
-      const data = await instance.get(`/user/me`);
+    if (!!token || !!user) {
+      const data = await instance.get(`/user/me/${user}`);
       return data.data;
     } else {
       return null;
     }
   };
 
-  const { data: loggedUser, isLoading, isError, error } = useQuery(["getLoogedUser"], () => getLoogedUser());
+  const { data: loggedUser, isLoading, isError, error } = useQuery(["getLoogedUser", token], () => getLoogedUser());
 
   if (isLoading) return <Spinner />;
   if (isError) return console.log(error);
