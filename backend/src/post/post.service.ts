@@ -65,7 +65,15 @@ export class PostService {
     return await this.prisma.post.findMany({
       where: { id: { in: ids } },
       include: {
-        author: { select: { username: true, email: true } },
+        author: {
+          select: {
+            username: true,
+            email: true,
+            images: {
+              select: { path: true },
+            },
+          }
+        },
         likes: { select: { id: true, userId: true, postId: true } },
       },
       orderBy: { location: "asc" }

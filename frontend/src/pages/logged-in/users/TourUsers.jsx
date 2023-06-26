@@ -1,12 +1,13 @@
 import { useContext } from "react";
 import AuthContext from "../../../context/AuthContext";
 import { useLocation, Link, useNavigate } from "react-router-dom";
-import { createStyles, Title, Container, rem, Text, Center, Image, Button, Flex } from "@mantine/core";
+import { createStyles, Title, Container, rem, Center, Image, Button, Flex } from "@mantine/core";
 import { Carousel } from "@mantine/carousel";
 import { Dots } from "../../../components/users/TourUsers/Dots";
 import { Description } from "../../../components/users/Description";
 import { ContactUs } from "../../../components/users/TourUsers/ContactUs";
 import { BookCard } from "../../../components/users/TourUsers/BookCard";
+import Comments from "../../../components/users/TourUsers/Comments";
 
 export default function TourUsers() {
   const { instance, user } = useContext(AuthContext);
@@ -45,9 +46,8 @@ export default function TourUsers() {
 
       {!!user ? (
         <>
-          <Text transform="uppercase" weight={800} mt={35} size="md" ta="center" color="#0b4668">
-            Choose dates for this adventure:
-          </Text>
+          <Comments />
+          <hr />
           <BookCard data={data} />
           <ContactUs />
         </>

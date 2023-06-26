@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import AuthContext from "../../../context/AuthContext";
-import { createStyles, Card, Text, Group, Avatar, Button, SimpleGrid, Stack } from "@mantine/core";
+import { createStyles, Card, Text, Group, Avatar, Button, Stack, Flex } from "@mantine/core";
 import dayjs from "dayjs";
 import { IconThumbUpFilled } from "@tabler/icons-react";
 
@@ -18,14 +18,11 @@ export function BookCard({ data }) {
   const secondDate = dates[1];
 
   return (
-    <SimpleGrid
-      cols={2}
-      spacing="lg"
-      verticalSpacing="lg"
-      mx={10}
-      my={20}
-      breakpoints={[{ maxWidth: "36rem", cols: 1, spacing: "sm" }]}
-    >
+    <Flex direction="column" justify="center" align="center">
+      {/* <SimpleGrid cols={2} spacing="lg" verticalSpacing="lg" breakpoints={[{ maxWidth: "36rem", cols: 1, spacing: "sm" }]} > */}
+      <Text transform="uppercase" weight={800} mt={16} size="md" ta="center" color="#0b4668">
+        Choose dates for this adventure:
+      </Text>
       <Card withBorder radius="md" p={0} className={classes.card}>
         <Group noWrap spacing={0}>
           <Avatar
@@ -55,7 +52,8 @@ export function BookCard({ data }) {
           </div>
         </Group>
       </Card>
-    </SimpleGrid>
+      {/* </SimpleGrid> */}
+    </Flex>
   );
 }
 
@@ -63,6 +61,8 @@ const useStyles = createStyles((theme) => ({
   card: {
     backgroundColor: theme.white,
     marginBottom: "30px",
+    maxWidth: "300px",
+    marginTop: "20px",
   },
 
   title: {
